@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project — 홍어진 포트폴리오</title>
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#ECE9F3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23FF9B6A'/%3E%3C/svg%3E">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Jua&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="vendor/gsap.min.js" defer></script>
+<script src="vendor/ScrollTrigger.min.js" defer></script>
+<script src="js/data.js" defer></script>
+<script src="js/common.js" defer></script>
+<script src="js/project.js" defer></script>
+</head>
+<body class="page-project">
+<a class="skip" href="#overview">본문으로 바로가기</a>
+<div class="curtain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"><span></span></div>
+<header class="hd">
+  <a class="logo" href="index.html" data-go aria-label="홈으로"><i class="logo__dot"></i>홍어진</a>
+  <nav class="hd__nav" aria-label="주요 메뉴"><a href="index.html#works" data-go>← All Works</a><a href="index.html#studies" data-go>Studies</a><a href="index.html#contact" data-go>Contact</a></nav>
+  <button class="hd__menu" type="button" aria-expanded="false" aria-controls="mnav" aria-label="메뉴 열기"><span></span><span></span></button>
+</header>
+<div class="mnav" id="mnav" hidden>
+  <a href="index.html" data-go>Home</a><a href="index.html#works" data-go>All Works</a><a href="index.html#studies" data-go>Rebuild Studies</a><a href="index.html#contact" data-go>Contact</a>
+</div>
+<button class="totop" id="totop" type="button" aria-label="맨 위로 이동"><span>↑</span></button>
+<main id="app"></main>
+</body>
+</html>

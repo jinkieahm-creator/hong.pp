@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PAGE ONE — 웹 퍼블리셔 포트폴리오</title>
+<meta name="description" content="컬러와 움직임으로 정적인 화면에 생동감을 더하는 신입 웹 퍼블리셔 홍어진의 포트폴리오.">
+<meta name="theme-color" content="#1C1729">
+<meta property="og:type" content="website">
+<meta property="og:title" content="홍어진 — 웹 퍼블리셔 포트폴리오">
+<meta property="og:description" content="컬러와 움직임으로 정적인 화면에 생동감을 더하는 신입 웹 퍼블리셔 홍어진의 포트폴리오.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23FF9B6A'/%3E%3C/svg%3E">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Jua&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="vendor/gsap.min.js" defer></script>
+<script src="vendor/ScrollTrigger.min.js" defer></script>
+<script src="js/data.js" defer></script>
+<script src="js/common.js" defer></script>
+<script src="js/home.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#about">본문으로 바로가기</a>
+<div class="curtain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"><span></span></div>
+
+<!-- 오프닝: 인사말 타이핑 → 핵심 메시지 3D 타이포 → 표지 펼치기 -->
+<div class="intro" id="intro" role="dialog" aria-label="오프닝">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="cover">
+    <p class="type" id="typed" aria-live="polite"><span class="tx"></span><i class="caret" aria-hidden="true"></i></p>
+    <h1 class="clay cover__name night" data-clay="시선을|설계하다"></h1>
+    <p class="cover__sub">웹 디자인 · 퍼블리싱 · Portfolio 2026</p>
+    <button class="open" id="open" type="button">첫 장 펼치기 <i aria-hidden="true">→</i></button>
+  </div>
+  <button class="skipintro" id="skipIntro" type="button">건너뛰기</button>
+</div>
+
+<header class="hd">
+  <a class="logo" href="#home" aria-label="홍어진 — 맨 위로"><i class="logo__dot"></i>홍어진</a>
+  <button class="hd__menu" type="button" aria-expanded="false" aria-controls="mnav" aria-label="메뉴 열기"><span></span><span></span></button>
+</header>
+<div class="mnav" id="mnav" hidden>
+  <a href="#home">첫 장</a><a href="#about">About</a><a href="#works">Works</a><a href="#studies">Studies</a><a href="#process">Process</a><a href="#contact">Contact</a>
+  <p class="meta">Where color meets interaction.</p>
+</div>
+<nav class="tabs" aria-label="책갈피 메뉴">
+  <a href="#about" style="--tc:#FF9B6A">About</a>
+  <a href="#works" style="--tc:#BDB2F2">Works</a>
+  <a href="#studies" style="--tc:#D9D3EA">Studies</a>
+  <a href="#process" style="--tc:#A7E3D0">Process</a>
+  <a href="#contact" style="--tc:#F2D98B">Contact</a>
+</nav>
+<button class="totop" id="totop" type="button" aria-label="맨 위로 이동"><span>↑</span></button>
+
+<main>
+<!-- 첫 장 -->
+<section class="pg hero" id="home" data-theme="paper" data-folio="1">
+  <div class="hero__glow" aria-hidden="true"></div>
+  <canvas class="hero__play" id="heroPlay" aria-hidden="true"></canvas>
+  <p class="hero__playhint" aria-hidden="true"><i></i> DRAG TO MOVE</p>
+  <div class="hero__top"><p class="meta">Color in Motion</p><p class="meta">Web Publisher · Portfolio 2026</p></div>
+  <div>
+    <h2 class="clay hero__title" data-clay="COLOR|IN MOTION."></h2>
+    <em class="hero__slogan" style="font-style:normal">Where color meets interaction.</em>
+  </div>
+  <div class="hero__foot">
+    <p class="hero__sub">I turn static designs into interactive experiences.</p>
+    <p class="hero__intro"><b>홍어진 · 신입 웹디자인 · 퍼블리싱</b><span>반응형 웹 · 인터랙션 구현 · HTML / CSS / JavaScript / GSAP</span></p>
+    <a class="cue" href="#about" data-cur="Scroll"><span>다음 장</span><i></i></a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="pg sec about" id="about" data-theme="paper" data-folio="2">
+  <div class="wrap g12">
+    <h2 class="about__lead">안녕하세요. 사용자의 선택을 생각하는 웹디자이너입니다.</h2>
+
+    <div class="about__me">
+      <p class="meta">Hello</p>
+      <h3>홍어진<small>웹디자인 · 퍼블리싱</small></h3>
+      <p>펠리체골드에서 주얼리 MD로 일하며 사진 한 장, 정보의 순서, 짧은 문장 하나가 고객의 선택에 영향을 준다는 것을 가까이에서 배웠습니다.</p>
+      <p>이 경험을 직접 화면에 담고 싶어 웹디자인과 퍼블리싱을 공부했습니다. 아직 더 배우고 실험할 것이 많지만, 보는 사람의 입장에서 고민하고 끝까지 구현하는 태도만큼은 놓치지 않으려 합니다.</p>
+    </div>
+
+    <div class="about__philo">
+      <p class="meta">Strength / Growth</p>
+      <ol>
+        <li><b>MY STRENGTH</b><span>고객을 가까이에서 관찰한 경험을 정보의 순서와 화면 흐름으로 연결합니다.</span></li>
+        <li><b>STILL GROWING</b><span>사용자 경험을 더 깊이 이해하기 위해 계속 배우고 다양한 방식을 실험하고자 합니다.</span></li>
+      </ol>
+    </div>
+
+    <div class="about__sheet">
+      <dl class="sheet__c">
+        <dt class="meta">PROFILE</dt>
+        <dd><b>홍어진 · 만 23세</b><span>jinkieahm@naver.com</span><span>010-4712-6458</span></dd>
+      </dl>
+      <dl class="sheet__c">
+        <dt class="meta">EXPERIENCE</dt>
+        <dd><b>펠리체골드 · 주얼리 MD</b><span>2024.11 — 2026.03</span></dd>
+      </dl>
+      <dl class="sheet__c">
+        <dt class="meta">BACKGROUND</dt>
+        <dd>
+          <b>보석감정사 과정 수료 · 보석감정사<br>국제 주얼리 가치평가 디플로마 · 주얼리 딜러 2급</b>
+          <span>과정 수료 및 자격 · 2024</span>
+          <b class="sheet__2">국제 주얼리 공모전 동상 · 2022</b>
+        </dd>
+      </dl>
+    </div>
+
+    <div class="skills" aria-label="기술 스택">
+      <p class="meta skills__cap">기술 스택 — 사용 경험에 따라 구분</p>
+      <div class="skill"><h4><span class="lv lv--3">CORE</span></h4><ul><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Responsive Web</li></ul><p>세 개의 개인 프로젝트와 아홉 개의 재현 작업에서 직접 작성</p></div>
+      <div class="skill"><h4><span class="lv lv--2">WORKING</span></h4><ul><li>GSAP</li><li>ScrollTrigger</li></ul><p>섹션 진입, 마스킹, 패럴랙스 등 필요한 인터랙션에 적용</p></div>
+      <div class="skill"><h4><span class="lv lv--1">TOOLS</span></h4><ul><li>Figma</li><li>Photoshop</li><li>Illustrator</li></ul><p>시안과 그래픽 제작</p></div>
+    </div>
+
+    <div class="felice">
+      <button class="felice__btn" id="feliceBtn" type="button" aria-expanded="false" aria-controls="feliceBox" data-cur="Open"><span>펠리체골드에서 작업한 디자인</span><i aria-hidden="true">+</i></button>
+      <div class="felice__box" id="feliceBox" hidden>
+        <ul>
+          <li><img src="images/felice/sale.jpg" alt="펠리체골드 프로모션 상세페이지" loading="lazy" width="900" height="1125"><span>프로모션 상세페이지</span></li>
+          <li><img src="images/felice/collection.jpg" alt="펠리체골드 컬렉션 상세페이지" loading="lazy" width="900" height="1125"><span>컬렉션 상세페이지</span></li>
+          <li><img src="images/felice/brand.jpg" alt="펠리체골드 브랜드 배너" loading="lazy" width="900" height="900"><span>브랜드 배너</span></li>
+        </ul>
+        <p class="meta">주얼리 MD 업무 중 Photoshop · Illustrator로 함께 작업한 일부입니다.</p>
+      </div>
+    </div>
+
+    <a class="about__proc" href="#process" data-cur="Process">Working process <b>Analyze → Design → Develop → Interact → Optimize</b> <i>↓</i></a>
+  </div>
+</section>
+
+<!-- SELECTED WORKS -->
+<section class="pg sec works" id="works" data-theme="paper" data-folio="3">
+  <div class="wrap">
+    <header class="sec__head">
+      <p class="meta">직접 기획하고 만들고 배포한 프로젝트 3편</p>
+      <h2 class="clay ttl" data-clay="SELECTED|WORKS"></h2>
+      <p class="sec__lead">각각 다른 질문에서 출발했고, 그래서 색과 화면의 문법도 다릅니다.</p>
+    </header>
+  </div>
+  <div id="workList"></div>
+</section>
+
+<!-- REBUILD STUDIES -->
+<section class="pg sec studies night" id="studies" data-theme="night" data-folio="4">
+  <div class="wrap">
+    <header class="sec__head">
+      <p class="meta">Rebuild studies — 9개의 재현 작업</p>
+      <h2 class="clay ttl" data-clay="STUDY.|ANALYZE.|REBUILD."></h2>
+      <div class="studies__note">
+        <span class="badge">PERSONAL STUDY</span>
+        <p>기존 웹사이트를 관찰하고 분석해 직접 다시 만든 <b>개인 학습 및 재현 작업</b>입니다. 클라이언트 작업이나 서비스 운영 경험이 아니며, 원본 디자인의 저작권은 각 원본 사이트에 있습니다.</p>
+      </div>
+    </header>
+    <div class="tbl" aria-label="Rebuild Studies 목록">
+      <div class="tbl__head meta" aria-hidden="true"><span>No.</span><span>Rebuilt Website</span><span>Layout</span><span>Interaction</span><span>Tools</span><span></span></div>
+      <ol id="studyList"></ol>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="pg sec process" id="process" data-theme="paper" data-folio="5">
+  <div class="wrap">
+    <header class="sec__head">
+      <p class="meta">화면 하나를 만드는 순서</p>
+      <h2 class="clay ttl" data-clay="HOW I|MAKE IT|MOVE."></h2>
+    </header>
+    <ol class="steps" id="steps"></ol>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="pg contact night" id="contact" data-theme="night" data-folio="6">
+  <div class="contact__glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="meta">마지막 장</p>
+    <h2 class="clay contact__big" data-clay="LET’S MAKE|SOMETHING|MOVE."></h2>
+    <ul class="contact__list">
+      <li><span class="meta">Email</span><a id="mail" href="mailto:jinkieahm@naver.com" data-cur="Mail">jinkieahm@naver.com</a><button class="copy" id="copy" type="button">COPY</button></li>
+      <li><span class="meta">Phone</span><a href="tel:01047126458">010-4712-6458</a><span></span></li>
+    </ul>
+    <footer class="foot"><span>© 2026 홍어진. All rights reserved.</span><span>Color in Motion</span><a href="#home" data-cur="Top">맨 위로 ↑</a></footer>
+  </div>
+</section>
+</main>
+</body>
+</html>
