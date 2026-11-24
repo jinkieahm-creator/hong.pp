@@ -192,6 +192,19 @@
       <div class="spanel" id="p-${s.id}" role="region" aria-label="${s.name} 상세" hidden><div class="spanel__in" data-i="${i}"></div></div>
     </li>`).join('');
 
+  /* 재현 작업은 3개만 먼저 보여주고 나머지는 버튼으로 펼친다 (케이스 스터디가 먼저 보이도록) */
+  const SHOW = 3, rows = $$('#studyList .srow'), more = $('#studyMore');
+  if (rows.length > SHOW) {
+    rows.slice(SHOW).forEach(r => r.hidden = true);
+    more.hidden = false; more.textContent = `나머지 ${rows.length - SHOW}개 더 보기 +`;
+    more.addEventListener('click', () => {
+      const open = rows[SHOW].hidden;
+      rows.slice(SHOW).forEach(r => { r.hidden = !open; });
+      more.textContent = open ? '접기 −' : `나머지 ${rows.length - SHOW}개 더 보기 +`;
+      if (hasG) ScrollTrigger.refresh();
+    });
+  }
+
   function fillPanel(box) {
     if (box.dataset.ready) return; box.dataset.ready = 1;
     const s = D.studies[+box.dataset.i];
@@ -299,7 +312,7 @@
     gsap.set([sub, btn], { opacity: 0, y: 14 });
     light(name, intro);
 
-    const LINES = ['안녕하세요', '고객의 선택을 세심하게 관찰해', '시선을 설계하는 홍어진입니다.'];
+    const LINES = ['예쁜 화면은 이제 AI도 만듭니다.', '하지만 그 안에 담기는 진심과 고민까지는 대신하지 못합니다.'];
     const sleep = ms => new Promise(r => setTimeout(r, ms));
     let skipped = false;
 
