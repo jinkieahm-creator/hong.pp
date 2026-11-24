@@ -6,7 +6,7 @@
   const list = D.works;
   const id = new URLSearchParams(location.search).get('p');
   let i = list.findIndex(w => w.id === id); if (i < 0) i = 0;
-  const w = list[i], n = list[(i + 1) % list.length], dt = w.detail || {};
+  const w = list[i], n = list[(i + 1) % list.length], dt = w.detail || {}, cs = dt.case || {};
   const pad = k => String(k + 1).padStart(2, '0');
   document.title = `${w.name} — 홍어진 포트폴리오`;
   root.style.setProperty('--pc', w.color);
@@ -37,6 +37,11 @@
       <div><dt>링크</dt><dd><a class="btn" href="${w.url}" target="_blank" rel="noopener">VIEW LIVE SITE <i>↗</i></a></dd></div>
     </dl>`, 'id="overview"')}
 
+  ${cs.who || cs.pain || cs.evidence ? sec('PROBLEM · 문제 정의', `
+    ${cs.who ? `<p class="p-text" data-fade><b>누구의 문제인가</b><br>${cs.who}</p>` : ''}
+    ${cs.pain ? `<p class="p-lead" data-fade>${cs.pain}</p>` : ''}
+    ${cs.evidence ? `<div class="t-block" data-fade><p class="meta" style="margin-bottom:10px">근거</p>${bullets(cs.evidence)}</div>` : ''}`) : ''}
+
   ${sec('DESIGN CONCEPT · 디자인 콘셉트', `
     <p class="p-lead" data-fade>${w.problem}</p>
     <p class="p-text" data-fade>${w.approach}</p>
@@ -46,6 +51,8 @@
     <div class="browser" data-fade><div class="browser__bar"><i></i><i></i><i></i><span>${w.name} · Live preview</span></div>
       <div class="browser__view"><iframe data-w="1280" src="${w.url}" title="${w.name} 실제 사이트 미리보기" loading="lazy" tabindex="-1"></iframe></div></div>
     <p class="p-note">배포된 실제 사이트를 그대로 불러온 미리보기입니다. (인터넷 연결 필요)</p>`)}
+
+  ${has(cs.decisions) ? sec('DECISIONS · 설계 결정', `<div class="t-block" data-fade><ol>${cs.decisions.map(d => `<li><b>${d.title}</b><br>${d.why}${d.alt ? `<br><small>검토했던 대안: ${d.alt}</small>` : ''}</li>`).join('')}</ol></div>`) : ''}
 
   ${has(dt.process) ? sec('IMPLEMENTATION · 구현 과정', `<div class="t-block" data-fade><ol>${dt.process.map(p => `<li>${p}</li>`).join('')}</ol></div>`) : ''}
 
@@ -58,6 +65,8 @@
     <p class="p-note">같은 배포 사이트를 모바일·태블릿 가로폭으로 불러온 미리보기입니다.</p>`)}
 
   ${has(dt.interaction) ? sec('INTERACTION · 인터랙션 구현', bullets(dt.interaction)) : ''}
+
+  ${has(cs.validation) ? sec('VALIDATION · 검증', bullets(cs.validation)) : ''}
 
   ${sec('RESULT · 작업 결과' + (dt.learned ? ' 및 배운 점' : ''), `
     <p class="p-lead" data-fade>${w.result}</p>
