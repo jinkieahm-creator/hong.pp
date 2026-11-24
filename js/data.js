@@ -51,7 +51,7 @@ window.CIM_DATA = {
       parts: ['1원 단위 후원 현황', '4단계 변화 이야기', '100P 참여 미션'] },
   ],
 
-  /* ---------- Rebuild Studies (개인 학습 · 재현 작업) ----------
+  /* ---------- Rebuild Studies (개인 학습 · 재현 작업) -----------
      orig   : 원본 사이트 이름 / origUrl : 원본 주소(없으면 비워 둠)
      feats  : 실제 구현한 기능 */
   studies: [
