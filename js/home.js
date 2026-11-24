@@ -374,7 +374,7 @@
       tabs.forEach(a => a.classList.toggle('is-cur', a.getAttribute('href') === '#' + sec.id)); }
   }));
 
-  // About: 문장이 스크롤에 따라 또렷해짐
+  // About: 문장이 스크롤에 따라 또렷해짐//
   const lead = $('.about__lead');
   lead.innerHTML = lead.textContent.trim().split(/\s+/).map(w => `<span>${w}</span>`).join(' ');
   gsap.fromTo($$('.about__lead span'), { opacity: .18 }, { opacity: 1, stagger: .5, ease: 'none', scrollTrigger: { trigger: lead, start: 'top 82%', end: 'bottom 52%', scrub: true } });
