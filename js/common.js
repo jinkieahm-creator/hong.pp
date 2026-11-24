@@ -99,7 +99,7 @@
     document.addEventListener('mouseleave', () => c.classList.remove('is-on'));
   }
 
-  /* 복사 버튼 */
+  /* 복사 버튼 *//
   const copy = $('#copy');
   copy && copy.addEventListener('click', async () => {
     try { await navigator.clipboard.writeText($('#mail').textContent.trim()); copy.textContent = 'COPIED'; } catch { copy.textContent = 'CTRL+C'; }
