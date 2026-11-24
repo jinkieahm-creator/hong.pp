@@ -365,7 +365,7 @@
     addEventListener('keydown', e => { if (e.key === 'Enter' && !opened && btn.style.opacity > 0.9) openBook(false); });
   }
 
-  /* ---------------- 스크롤 인터랙션 ---------------- */
+  /* ---------------- 스크롤 인터랙션 ---------------- *//
   // 헤더 색·책갈피 현재 위치
   const hd = $('.hd'), tabs = $$('.tabs a');
   $$('.pg[data-theme]').forEach(sec => ScrollTrigger.create({
