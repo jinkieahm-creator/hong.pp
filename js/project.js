@@ -84,7 +84,7 @@
   const hd = $('.hd'), hero = $('.p-hero'), nextEl = $('.p-next');
   hd.style.color = w.ink;
   root.style.setProperty('--hdbg', w.color);
-  /* 히어로 위에서는 프로젝트 컬러, 본문에서는 크림, 다음 프로젝트 위에서는 그 컬러로 헤더를 맞춘다 */
+  /* 히어로 위에서는 프로젝트 컬러, 본문에서는 크림, 다음 프로젝트 위에서는 그 컬러로 헤더를 맞춘다 *//
   const paintHd = () => {
     const inHero = scrollY < hero.offsetHeight - 60, atNext = nextEl.getBoundingClientRect().top < 60;
     hd.style.color = inHero ? w.ink : (atNext ? n.ink : '#1C1729');
