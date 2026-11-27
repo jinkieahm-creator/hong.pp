@@ -62,11 +62,13 @@ if (cp) cp.addEventListener("click", () => {
 })
 
 /* ---------- 풀밭 배경 + 하루의 시간 ---------- */
+// 저사양(모바일·코어 4개 이하·메모리 4GB 이하)이면 풀·꽃·블러를 줄여 가볍게
+const lowEnd = mobile || (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4
 const meadow = mountMeadow($("#meadow"), {
   day: { time: 6 },
-  flowers: 4.5,
-  grass: mobile ? 3 : 5,
-  depthBlur: mobile ? 2 : 4.9,
+  flowers: lowEnd ? 3 : 4.5,
+  grass: lowEnd ? 2.5 : 5,
+  depthBlur: lowEnd ? 2 : 4.9,
   eventTarget: document.documentElement, // 글 위에서도 꽃이 마우스에 반응
 })
 
@@ -188,10 +190,10 @@ if (!reduce) {
 
 /* ---------- 화면 전환 ---------- */
 // 가로로 넘어가는 연습 밭: 세로 스크롤 → 가로 이동
-const studiesEl = $("#studies"), track = $("#studyList")
-const dist = () => Math.max(0, track.scrollWidth - (studiesEl.clientWidth - 2 * parseFloat(getComputedStyle(studiesEl).paddingLeft)))
-if (matchMedia("(min-width:861px)").matches && !reduce) gsap.to(track, { x: () => -dist(), ease: "none",
-  scrollTrigger: { trigger: studiesEl, start: "top top", end: () => "+=" + (dist() + innerHeight * 0.6), pin: true, scrub: 0.6, invalidateOnRefresh: true } })
+const rail = document.querySelector(".studyrail"), track = $("#studyList")
+const dist = () => Math.max(0, track.scrollWidth - rail.clientWidth + 2 * parseFloat(getComputedStyle(rail).paddingLeft))
+if (!reduce) gsap.to(track, { x: () => -dist(), ease: "none",
+  scrollTrigger: { trigger: rail, start: "center center", end: () => "+=" + dist(), pin: true, pinSpacing: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true } })
 
 // 시간 지도는 핀 계산 뒤에 만든다
 sts = stops.map(([sel]) => ScrollTrigger.create({ trigger: sel, start: "top top" }))
@@ -260,4 +262,13 @@ if (matchMedia("(hover:hover) and (pointer:fine)").matches) {
 if (location.hash && $(location.hash)) addEventListener("load", () => setTimeout(() => { ScrollTrigger.refresh(); $(location.hash).scrollIntoView() }, 350))
 
 /* 스크롤 연출: 카메라 이동, 바람, 꽃잎, 글자 띠 */
+/* 실무 역량 (data.js 의 skills) — 이름만 간단히 */
+{
+  const S = D.skills, box = document.getElementById("skills")
+  if (S && box) {
+    const grp = (lv, arr) => `<div class="skill"><h4><span class="lv">${lv}</span></h4><ul class="sk">${arr.map((s) => `<li>${s.name}</li>`).join("")}</ul></div>`
+    box.innerHTML = grp("DESIGN", S.design) + grp("DEVELOPMENT", S.dev) + grp("WORK PROCESS", S.process)
+  }
+}
+
 scrollFx(meadow, { bands: true })
