@@ -1,6 +1,7 @@
 /* golden.js — 메인 페이지. 내용(텍스트·링크)은 js/data.js 에서 고칩니다.
    스크롤 위치 → 하루의 시간(06시 일출 → 12시 정오 → 18시 일몰 → 22시 밤) */
 import { mountMeadow } from "./meadow.js"
+import { mountSticker, flowerSticker } from "./sticker.js"
 import { mountFlower } from "./flower3d.js"
 import { scrollFx } from "./fx.js"
 
@@ -269,6 +270,28 @@ if (location.hash && $(location.hash)) addEventListener("load", () => setTimeout
     const grp = (lv, arr) => `<div class="skill"><h4><span class="lv">${lv}</span></h4><ul class="sk">${arr.map((s) => `<li>${s.name}</li>`).join("")}</ul></div>`
     box.innerHTML = grp("DESIGN", S.design) + grp("DEVELOPMENT", S.dev) + grp("WORK PROCESS", S.process)
   }
+}
+
+/* ---------- 첫 화면: 흰 하늘 위로 풀밭이 올라오고, 꽃 스티커를 끌어 볼 수 있습니다 ---------- */
+{
+  const host = $("#stickers")
+  if (host) {
+    const place = () => {
+      const W = innerWidth, size = W < 560 ? 84 : W < 860 ? 104 : 136, hw = host.clientWidth, hh = host.clientHeight
+      const spots = W < 860
+        ? [["#FF704F", "#F2C83A", -8, 0.04, hh / 2], ["#D8F36A", "#E86A2A", 9, 0.36, hh / 2 + 4], ["#354BFF", "#FFD9A0", -5, 0.68, hh / 2]]
+        : [["#FF704F", "#F2C83A", -8, 0.8, hh * 0.14], ["#D8F36A", "#E86A2A", 9, 0.9, hh * 0.36], ["#354BFF", "#FFD9A0", -5, 0.76, hh * 0.56]]
+      spots.forEach(([p, c, r, fx, cy]) => mountSticker(host, { source: flowerSticker(p, c, r), width: size, height: size, x: Math.min(hw - size, fx * hw), y: cy - size / 2 }))
+    }
+    // 글꼴이 자리 잡아 첫 화면 높이가 정해진 뒤에 배치
+    Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1500))]).then(place)
+  }
+  const root = document.documentElement
+  let lastV = -1
+  gsap.ticker.add(() => {
+    const v = Math.max(0, Math.min(1, 1 - scrollY / (innerHeight * 0.75)))
+    if (Math.abs(v - lastV) > 0.002) { lastV = v; root.style.setProperty("--v", v.toFixed(3)) }
+  })
 }
 
 scrollFx(meadow, { bands: true })

@@ -359,3 +359,23 @@ html,body{overflow-x:clip}
 /* 키보드 포커스 표시 (접근성) */
 a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #FFD9A0;outline-offset:3px;border-radius:12px}
 .btn--solid:focus-visible{outline-color:#fff}
+
+/* ===== V21 첫 화면: 흰 하늘 + 아래에서 올라오는 풀밭 ===== */
+:root{--v:1}
+.veil{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:var(--v);background:linear-gradient(#fff 0,#fff 66%,rgba(255,255,255,0) 93%)}
+#meadow::after{opacity:calc(1 - var(--v)*.85)}
+.hero h1,.hero .slogan,.hero .sub,.hero .who{color:rgb(calc(255 - 226*var(--v)) calc(255 - 235*var(--v)) calc(255 - 219*var(--v)));text-shadow:0 2px 18px rgba(30,8,44,calc(.8*(1 - var(--v))));-webkit-text-stroke:0}
+.hero .who b{color:inherit}
+.hero h1{font-size:clamp(42px,7.4vw,108px)}
+.hero{padding-top:14vh}
+.hero .sub{max-width:640px}
+.quick .short{display:none}
+@media(max-width:560px){.quick .long{display:none}.quick .short{display:inline}}
+.stickers{position:absolute;inset:0;pointer-events:none;z-index:2}
+@media(max-width:860px){
+  .hero{padding-top:12vh}
+  .hero .quick{flex-direction:row;align-items:center;gap:8px}
+  .hero .quick .btn{padding:8px 11px;font-size:12px}
+  .hero .hint{display:none}
+  .stickers{position:relative;inset:auto;height:104px;margin:4px 0 6px}
+}
