@@ -1,224 +1,158 @@
-/* project.js — 프로젝트 상세 (project.html?p=goldendew)
-   메인 사이트와 같은 풀밭·하루의 시간 컨셉. 내용은 js/data.js 의 works[] 에서 고칩니다. */
-import { mountMeadow } from "./meadow.js"
-import { mountFlower } from "./flower3d.js"
-import { scrollFx } from "./fx.js"
+/* project.js — 케이스 스터디 (project.html?p=goldendew)
+   내용은 js/data.js 의 works[].detail 에서 고칩니다. 채운 항목만 화면에 나타납니다. */
+(function () {
+  const D = window.CIM_DATA
+  const $ = (s) => document.querySelector(s)
+  const pad = (n) => String(n).padStart(2, "0")
+  const list = D.works
+  let i = list.findIndex((w) => w.id === new URLSearchParams(location.search).get("p"))
+  if (i < 0) i = 0
+  const w = list[i], n = list[(i + 1) % list.length], dt = w.detail || {}, cs = dt.case || {}
+  const ov = dt.overview || {}, st = cs.strategy || {}, rf = dt.reflection || {}, rs = dt.responsive || {}
+  const has = (v) => (Array.isArray(v) ? v.length > 0 : !!v)
+  const t = (v) => String(v == null ? "" : v)
+  const li = (a) => (a || []).map((x) => `<li>${x}</li>`).join("")
+  const STATUS = { done: ["확인 완료", "ok"], todo: ["추가 검증 필요", ""] }
+  document.title = `${w.name} — 케이스 스터디 | 홍어진 포트폴리오`
+  document.documentElement.style.setProperty("--pc", w.color)
 
-const D = window.CIM_DATA
-const $ = (s) => document.querySelector(s)
-const pad = (n) => String(n).padStart(2, "0")
-const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches
-const mobile = matchMedia("(max-width:768px)").matches
-const list = D.works
-const id = new URLSearchParams(location.search).get("p")
-let i = list.findIndex((w) => w.id === id)
-if (i < 0) i = 0
-const w = list[i], n = list[(i + 1) % list.length], dt = w.detail || {}, cs = dt.case || {}
-const has = (v) => (Array.isArray(v) ? v.length > 0 : !!v)
-const bullets = (v) => (Array.isArray(v) ? `<ul class="bul">${v.map((t) => `<li>${t}</li>`).join("")}</ul>` : `<p>${v}</p>`)
-document.title = `${w.name} — 홍어진 포트폴리오`
-document.documentElement.style.setProperty("--pc", w.color)
-document.documentElement.style.setProperty("--pi", w.ink)
+  const toc = []
+  const sec = (id, en, title, body, sub) => {
+    toc.push([id, title])
+    return `<section class="cs" id="${id}" data-theme="light" data-room="${pad(toc.length)}|${en}">
+      <header class="cs__head"><span class="eyebrow">${pad(toc.length)} · ${en}</span><h2 class="split">${title}</h2>${sub ? `<p>${sub}</p>` : ""}</header>${body}</section>`
+  }
 
-const img = (alt) => `<img src="${w.local}" alt="${alt}" onerror="this.onerror=null;this.src='${w.img}'">`
-const ov = dt.overview || {}, st = cs.strategy || {}, rf = dt.reflection || {}, rs = dt.responsive || {}
-const esc = (t) => String(t == null ? "" : t)
-const li = (a) => (a || []).map((t) => `<li>${t}</li>`).join("")
-const STATUS = { done: ["확인 완료", "ok"], todo: ["추가 검증 필요", "todo"] }
-let k = 0
-const sec = (id, stage, title, body, sub) => `
-  <section class="pg pp-sec cs" id="${id}">
-    <header class="sec-head">
-      <span class="meta time">${pad(++k)} · ${stage}</span>
-      <h2>${title}</h2>
-      ${sub ? `<p class="lead">${sub}</p>` : ""}
-    </header>
-    ${body}
-  </section>`
+  const s = []
+  s.push(sec("overview", "OVERVIEW", "프로젝트 개요", `
+    <div class="box">
+      <dl class="ov">
+        <div><dt>PROJECT</dt><dd>${w.name}</dd></div><div><dt>TYPE</dt><dd>${w.type}</dd></div><div><dt>YEAR</dt><dd>${w.period}</dd></div>
+        <div><dt>FORM</dt><dd>${t(ov.personal)}</dd></div><div><dt>ROLE</dt><dd>${ov.role || w.scope}</dd></div><div><dt>STACK</dt><dd>${w.stack.join(" · ")}</dd></div>
+      </dl>
+      <span class="tag">PROJECT GOAL</span>
+      <p class="lead2">${ov.goal || w.problem}</p>
+      <ul class="chips">${li(w.parts)}</ul>
+    </div>`))
 
-/* 01 */
-const s01 = sec("overview", "SEED · PROJECT OVERVIEW", "프로젝트 개요", `
-  <div class="pbox">
-    <dl class="ovgrid">
-      <div><dt>프로젝트</dt><dd>${w.name}</dd></div>
-      <div><dt>유형</dt><dd>${w.type}</dd></div>
-      <div><dt>기간</dt><dd>${w.period}</dd></div>
-      <div><dt>진행 형태</dt><dd>${ov.personal || ""}</dd></div>
-      <div><dt>담당 역할</dt><dd>${ov.role || w.scope}</dd></div>
-      <div><dt>사용 기술</dt><dd>${w.stack.join(" · ")}</dd></div>
-    </dl>
-    <p class="meta">PROJECT GOAL</p>
-    <p class="lead2">${ov.goal || w.problem}</p>
-    <ul class="chips">${li(w.parts)}</ul>
-  </div>`)
+  s.push(sec("problem", "PROBLEM", "문제 정의", `
+    ${cs.personaNote ? `<p class="disclaim">${cs.personaNote}</p>` : ""}
+    <div class="g2">
+      <article class="box rv"><span class="tag">TARGET USER</span><p>${t(cs.who)}</p></article>
+      <article class="box rv"><span class="tag">USER SCENARIO</span><p>${t(cs.scenario)}</p></article>
+      <article class="box rv"><span class="tag">PAIN POINT</span><p class="lead2">${t(cs.pain)}</p></article>
+      <article class="box rv"><span class="tag">DESIGN GOAL</span><p class="lead2">${t(cs.goal)}</p></article>
+    </div>`, "누가, 어떤 상황에서, 무엇이 불편한지를 먼저 구체적으로 적었습니다."))
 
-/* 02 */
-const s02 = sec("problem", "ROOT · PROBLEM DEFINITION", "문제 정의", `
-  ${cs.personaNote ? `<p class="badge2">${cs.personaNote}</p>` : ""}
-  <div class="qgrid">
-    <article class="pbox"><b class="tag">TARGET USER</b><p>${esc(cs.who)}</p></article>
-    <article class="pbox"><b class="tag">USER SCENARIO</b><p>${esc(cs.scenario)}</p></article>
-    <article class="pbox"><b class="tag">PAIN POINT</b><p>${esc(cs.pain)}</p></article>
-    <article class="pbox pbox--goal"><b class="tag">DESIGN GOAL</b><p>${esc(cs.goal)}</p></article>
-  </div>`, "누가, 어떤 상황에서, 무엇이 불편한지를 먼저 구체적으로 적었습니다.")
+  s.push(sec("research", "RESEARCH", "근거와 인사이트", `
+    <p class="disclaim">실제 인터뷰 · 설문 · 사용자 테스트는 진행하지 않았습니다. 아래는 현장 경험, 가설, 화면 구조 분석입니다.</p>
+    <div class="g3">${(cs.evidence || []).map((e) => `<article class="box rv"><span class="tag">${e.kind}</span><h3>${e.title}</h3><p>${e.text}</p></article>`).join("")}</div>
+    <div class="g2">
+      ${has(cs.findSteps) ? `<div class="box rv"><span class="tag">정보를 찾는 순서 (가설)</span><ol class="num-list">${li(cs.findSteps)}</ol></div>` : ""}
+      ${has(cs.opportunities) ? `<div class="box rv"><span class="tag">개선 기회</span><ol class="num-list">${li(cs.opportunities)}</ol></div>` : ""}
+    </div>`))
 
-/* 03 */
-const s03 = sec("research", "ROOT · RESEARCH & INSIGHT", "근거와 인사이트", `
-  <p class="badge2">실제 인터뷰 · 설문 · 사용자 테스트를 진행하지 않았습니다. 아래는 현장 경험, 가설, 화면 구조 분석입니다.</p>
-  <div class="evgrid">${(cs.evidence || []).map((e) => `<article class="pbox ev"><b class="tag">${e.kind}</b><h3>${e.title}</h3><p>${e.text}</p></article>`).join("")}</div>
-  ${has(cs.findSteps) ? `<div class="pbox"><p class="meta">사용자가 정보를 찾는 순서 (가설)</p><ol class="cs-steps">${li(cs.findSteps)}</ol></div>` : ""}
-  ${has(cs.opportunities) ? `<div class="pbox"><p class="meta">개선 기회</p><ul class="bul">${li(cs.opportunities)}</ul></div>` : ""}`)
+  const cmp = st.compare
+  const flow = (st.flow || []).map((f) => { const [a, b] = f.split("|"); return `<li><small>${a}</small><b>${b}</b></li>` }).join("")
+  s.push(sec("strategy", "STRATEGY", "설계 전략", `
+    ${has(st.improve) ? `<div class="box rv"><span class="tag">개선 방향</span><p class="lead2">${st.improve}</p></div>` : ""}
+    <div class="g2">
+      <div class="box rv"><span class="tag">정보 구조 (IA)</span>${(st.ia || []).map((r) => `<div class="ia"><b>${r.title}</b><ul>${li(r.children)}</ul></div>`).join("")}</div>
+      <div class="box rv"><span class="tag">콘텐츠 우선순위</span><ol class="num-list">${li(st.priority)}</ol></div>
+    </div>
+    <div class="box rv"><span class="tag">사용자 흐름</span><ol class="flow">${flow}</ol></div>
+    <div class="g2">
+      <div class="box rv"><span class="tag">주요 UI 구성</span><ul class="bul">${li(st.ui)}</ul></div>
+      <div class="box rv"><span class="tag">CTA 배치 이유</span><p>${t(st.cta)}</p></div>
+    </div>
+    ${cmp ? `<p class="disclaim" style="margin-top:22px">${cmp.note}</p>
+    <div class="cmp">
+      <article class="box rv"><span class="tag">BEFORE</span><h3>${cmp.before.title}</h3><ul class="bul">${li(cmp.before.items)}</ul></article>
+      <article class="box after rv"><span class="tag">AFTER</span><h3>${cmp.after.title}</h3><ul class="bul">${li(cmp.after.items)}</ul></article>
+    </div>` : ""}`))
 
-/* 04 */
-const cmp = st.compare
-const iaTree = (st.ia || []).map((r) => `<div class="ia"><b>${r.title}</b><ul>${li(r.children)}</ul></div>`).join("")
-const flow = (st.flow || []).map((f) => { const [a, b] = f.split("|"); return `<li><small>${a}</small><b>${b}</b></li>` }).join("")
-const s04 = sec("strategy", "STEM · DESIGN STRATEGY", "설계 전략", `
-  ${has(st.improve) ? `<div class="pbox"><p class="meta">개선 방향</p><p class="lead2">${st.improve}</p></div>` : ""}
-  <div class="pgrid2">
-    <div class="pbox"><p class="meta">정보 구조 (IA)</p>${iaTree}</div>
-    <div class="pbox"><p class="meta">콘텐츠 우선순위</p><ol class="cs-steps">${li(st.priority)}</ol></div>
-  </div>
-  <div class="pbox"><p class="meta">사용자 흐름</p><ol class="flow">${flow}</ol></div>
-  <div class="pgrid2">
-    <div class="pbox"><p class="meta">주요 UI 구성</p><ul class="bul">${li(st.ui)}</ul></div>
-    <div class="pbox"><p class="meta">CTA 배치 이유</p><p>${esc(st.cta)}</p></div>
-  </div>
-  ${cmp ? `<div class="cmp"><p class="badge2">${cmp.note}</p>
-    <div class="cmp__row">
-      <article class="pbox cmp__b"><b class="tag">BEFORE · ${cmp.before.title}</b><ul class="bul">${li(cmp.before.items)}</ul></article>
-      <article class="pbox cmp__a"><b class="tag">AFTER · ${cmp.after.title}</b><ul class="bul">${li(cmp.after.items)}</ul></article>
-    </div></div>` : ""}`)
+  s.push(sec("decisions", "DECISIONS", "디자인 의사결정", `
+    <div class="dec">${(cs.decisions || []).map((d, k) => `
+      <article class="box rv"><span class="dec__n">${pad(k + 1)}</span><h3>${d.title}</h3>
+        <dl><div><dt>문제 상황</dt><dd>${t(d.situation)}</dd></div><div><dt>선택한 디자인</dt><dd>${t(d.choice)}</dd></div>
+        <div><dt>선택한 이유</dt><dd>${t(d.why)}</dd></div><div><dt>검토한 대안</dt><dd>${t(d.alt)}</dd></div><div><dt>기대한 효과</dt><dd>${t(d.effect)}</dd></div></dl>
+      </article>`).join("")}</div>`, "요소를 나열하지 않고, 왜 그렇게 정했는지를 카드마다 적었습니다."))
 
-/* 05 */
-const s05 = sec("decisions", "STEM · DESIGN DECISIONS", "디자인 의사결정", `
-  <div class="decs">${(cs.decisions || []).map((d, n) => `
-    <article class="pbox deccard"><span class="deccard__n">${pad(n + 1)}</span><h3>${d.title}</h3>
-      <dl>
-        <div><dt>문제 상황</dt><dd>${esc(d.situation)}</dd></div>
-        <div><dt>선택한 디자인</dt><dd>${esc(d.choice)}</dd></div>
-        <div><dt>선택한 이유</dt><dd>${esc(d.why)}</dd></div>
-        <div><dt>검토한 대안</dt><dd>${esc(d.alt)}</dd></div>
-        <div><dt>기대한 효과</dt><dd>${esc(d.effect)}</dd></div>
-      </dl></article>`).join("")}</div>`, "요소를 나열하지 않고, 왜 그렇게 정했는지를 카드마다 적었습니다.")
+  s.push(sec("build", "IMPLEMENTATION", "구현", `
+    <div class="g3">${(dt.implementation || []).map((m) => `<article class="box rv"><span class="tag">${m.tag}</span><h3>${m.title}</h3><p>${m.body}</p></article>`).join("")}</div>
+    <div class="browser rv"><div class="frame__bar"><i></i><i></i><i></i><span>${w.url.replace(/^https?:\/\//, "")}</span></div>
+      <div class="frame__view"><iframe data-w="1280" data-src="${w.url}" title="${w.name} 실제 사이트 미리보기" tabindex="-1"></iframe></div></div>
+    <p class="disclaim" style="margin-top:12px">배포된 실제 사이트를 그대로 불러온 미리보기입니다. (인터넷 연결 필요)</p>`, "이 프로젝트에서 실제로 구현한 기능만 적었습니다."))
 
-/* 06 */
-const s06 = sec("implementation", "LEAF · IMPLEMENTATION", "구현", `
-  <div class="impl">${(dt.implementation || []).map((m) => `<article class="pbox"><b class="tag">${m.tag}</b><h3>${m.title}</h3><p>${m.body}</p>${m.code ? `<pre class="code"><code>${esc(m.code).replace(/</g, "&lt;")}</code></pre>` : ""}</article>`).join("")}</div>
-  <div class="browser"><div class="browser__bar"><i></i><i></i><i></i><span>${w.name} · Live preview</span></div>
-    <div class="browser__view"><iframe data-w="1280" src="${w.url}" title="${w.name} 실제 사이트 미리보기" loading="lazy" tabindex="-1"></iframe></div></div>
-  <p class="note2">배포된 실제 사이트를 그대로 불러온 미리보기입니다. (인터넷 연결 필요)</p>`, "이 프로젝트에서 실제로 구현한 기능만 적었습니다.")
+  const devBox = (k, l) => (rs[k] ? `<article class="box rv"><span class="tag">${l}</span><p>${rs[k]}</p></article>` : "")
+  s.push(sec("responsive", "RESPONSIVE", "반응형과 인터랙션", `
+    <div class="g3">${devBox("desktop", "DESKTOP")}${devBox("tablet", "TABLET")}${devBox("mobile", "MOBILE")}</div>
+    <div class="devs">
+      <figure class="dev dev--m rv"><div class="dev__view"><iframe data-w="390" data-src="${w.url}" title="${w.name} 모바일 폭 미리보기" tabindex="-1"></iframe></div><figcaption>MOBILE · 390PX</figcaption></figure>
+      <figure class="dev dev--t rv"><div class="dev__view"><iframe data-w="820" data-src="${w.url}" title="${w.name} 태블릿 폭 미리보기" tabindex="-1"></iframe></div><figcaption>TABLET · 820PX</figcaption></figure>
+    </div>
+    ${rs.intro ? `<p class="disclaim">${rs.intro}</p>` : ""}
+    ${has(dt.interaction) ? `<div class="box itx rv"><table><thead><tr><th>사용자 행동</th><th>화면 반응</th><th>구현 방식</th><th>사용 목적</th></tr></thead><tbody>${dt.interaction.map((r) => `<tr><td data-l="사용자 행동">${r.action}</td><td data-l="화면 반응">${r.response}</td><td data-l="구현 방식">${r.how}</td><td data-l="사용 목적">${r.purpose}</td></tr>`).join("")}</tbody></table></div>` : ""}`))
 
-/* 07 */
-const dev = (k2, t) => (rs[k2] ? `<article class="pbox"><b class="tag">${t}</b><p>${rs[k2]}</p></article>` : "")
-const s07 = sec("responsive", "PETAL · RESPONSIVE & INTERACTION", "반응형과 인터랙션", `
-  <div class="pgrid">${dev("desktop", "DESKTOP")}${dev("tablet", "TABLET")}${dev("mobile", "MOBILE")}</div>
-  <div class="devs">
-    <figure class="dev dev--m"><div class="dev__view"><iframe data-w="390" src="${w.url}" title="${w.name} 모바일 폭 미리보기" loading="lazy" tabindex="-1"></iframe></div><figcaption>Mobile · 390px</figcaption></figure>
-    <figure class="dev dev--t"><div class="dev__view"><iframe data-w="820" src="${w.url}" title="${w.name} 태블릿 폭 미리보기" loading="lazy" tabindex="-1"></iframe></div><figcaption>Tablet · 820px</figcaption></figure>
-  </div>
-  <p class="note2">${rs.intro || ""}</p>
-  ${has(dt.interaction) ? `<div class="pbox itx"><table><thead><tr><th>사용자 행동</th><th>화면 반응</th><th>구현 방식</th><th>사용 목적</th></tr></thead><tbody>${dt.interaction.map((r) => `<tr><td data-l="사용자 행동">${r.action}</td><td data-l="화면 반응">${r.response}</td><td data-l="구현 방식">${r.how}</td><td data-l="사용 목적">${r.purpose}</td></tr>`).join("")}</tbody></table></div>` : ""}`)
+  s.push(sec("validation", "VALIDATION", "검증과 개선", `
+    <p class="disclaim">확인하지 않은 항목은 완료로 표시하지 않았습니다. 사용성 테스트 결과와 수치 성과는 아직 없습니다.</p>
+    <ul class="vlist">${(cs.validation || []).map((v) => { const [l, c] = STATUS[v.status] || STATUS.todo; return `<li class="rv"><span class="st ${c}">${l}</span><b>${v.item}</b><small>${t(v.note)}</small></li>` }).join("")}</ul>`))
 
-/* 08 */
-const s08 = sec("validation", "FLOWER · VALIDATION & IMPROVEMENT", "검증과 개선", `
-  <p class="badge2">확인하지 않은 항목은 완료로 표시하지 않았습니다. 사용성 테스트 결과와 수치 성과는 없습니다.</p>
-  <ul class="vlist">${(cs.validation || []).map((v) => { const [t, c] = STATUS[v.status] || STATUS.todo; return `<li><span class="chip2 chip2--${c}">${t}</span><b>${v.item}</b><small>${v.note || ""}</small></li>` }).join("")}</ul>`)
+  s.push(sec("reflection", "REFLECTION", "돌아보며", `
+    <div class="g2">
+      <article class="box rv"><span class="tag">가장 어려웠던 부분</span><p>${t(rf.hard)}</p></article>
+      <article class="box rv"><span class="tag">해결 과정</span><p>${t(rf.solve)}</p></article>
+      <article class="box rv"><span class="tag">잘한 점</span><p>${t(rf.good)}</p></article>
+      <article class="box rv"><span class="tag">부족했던 점</span><p>${t(rf.lack)}</p></article>
+    </div>
+    <div class="box rv"><span class="tag">다음 버전에서 개선할 내용</span><ol class="num-list">${li(rf.next)}</ol></div>`))
 
-/* 09 */
-const s09 = sec("reflection", "NIGHT · REFLECTION", "돌아보며", `
-  <div class="pgrid2">
-    <article class="pbox"><b class="tag">가장 어려웠던 부분</b><p>${esc(rf.hard)}</p></article>
-    <article class="pbox"><b class="tag">해결 과정</b><p>${esc(rf.solve)}</p></article>
-    <article class="pbox"><b class="tag">잘한 점</b><p>${esc(rf.good)}</p></article>
-    <article class="pbox"><b class="tag">부족했던 점</b><p>${esc(rf.lack)}</p></article>
-  </div>
-  <div class="pbox"><b class="tag">다음 버전에서 개선할 내용</b><ul class="bul">${li(rf.next)}</ul></div>`)
-
-const only = (cond, html) => (cond ? html : "")
-$("#app").innerHTML = `
-  <section class="pg phero" id="top">
-    <p class="meta">FLOWER ${w.no} / ${pad(list.length)} · ${w.type}</p>
-    <h1>${w.name}</h1>
-    <p class="slogan">${w.sub}</p>
-    <div class="pvis">
-      <div class="shotw"><div class="shot">${img(w.name + " 메인 화면")}</div><div class="fl" data-c="${w.color}"></div></div>
-      <div class="pbox">
-        <dl class="spec">
-          <div><dt>유형</dt><dd>${w.type}</dd></div><div><dt>기간</dt><dd>${w.period}</dd></div>
-          <div><dt>범위</dt><dd>${w.scope}</dd></div><div><dt>기술</dt><dd>${w.stack.join(" · ")}</dd></div>
-        </dl>
-        <a class="btn btn--solid" href="${w.url}" target="_blank" rel="noopener" data-cur="LIVE">라이브 사이트 보기 ↗</a>
+  const img = `<img src="${w.local}" alt="${w.name} 메인 화면" onerror="if(this.dataset.f){this.remove()}else{this.dataset.f=1;this.src='${w.img}'}">`
+  document.getElementById("app").innerHTML = `
+  <section class="phero" id="top" data-theme="dark" data-room="${w.no}|${w.name.toUpperCase()}">
+    <div class="wrap">
+      <div class="crumb"><a href="index.html#works">← ALL WORKS</a><span class="eyebrow">CASE STUDY ${w.no} / ${pad(list.length)}</span></div>
+      <h1><span class="line-mask"><span>${w.name}</span></span></h1>
+      <p class="sub">${w.sub}</p>
+      <div class="phero__grid">
+        <a class="frame" href="${w.url}" target="_blank" rel="noopener" data-cur="LIVE" style="--c:${w.color}" aria-label="${w.name} 라이브 사이트 열기">
+          <div class="frame__bar"><i></i><i></i><i></i><span>${w.url.replace(/^https?:\/\//, "")}</span></div>
+          <div class="frame__view"><span class="ph" aria-hidden="true">${w.name}</span>${img}</div>
+        </a>
+        <div>
+          <dl class="spec"><dt>TYPE</dt><dd>${w.type}</dd><dt>YEAR</dt><dd>${w.period}</dd><dt>ROLE</dt><dd>${w.scope}</dd><dt>STACK</dt><dd>${w.stack.join(" · ")}</dd></dl>
+          <p style="margin:0 0 24px;color:var(--mute)">${w.desc}</p>
+          <a class="btn btn--lime" href="${w.url}" target="_blank" rel="noopener">라이브 사이트 보기 ↗</a>
+        </div>
       </div>
     </div>
-    <a class="cue" href="#overview" data-cur="SCROLL">아래로 ↓</a>
   </section>
-  ${s01}${s02}${s03}${s04}${s05}${s06}${s07}${s08}${s09}
-
-  <section class="pg pnext" id="next">
-    <span class="meta">다음 꽃으로 · NEXT ${n.no} / ${pad(list.length)}</span>
-    <a class="pnext__card" href="project.html?p=${n.id}" style="--pc:${n.color};--pi:${n.ink}" data-cur="NEXT" aria-label="다음 프로젝트 ${n.name}">
-      <b>${n.name}</b><span>${n.sub}</span><i aria-hidden="true">→</i>
-    </a>
-    <footer class="foot"><span>© 2026 홍어진. All rights reserved.</span><a href="index.html#works">ALL WORKS</a><a href="index.html#contact">CONTACT</a><a href="#top">맨 위로 ↑</a></footer>
+  <div class="cs-layout" data-theme="light" data-room="CASE|STUDY">
+    <ol class="toc" id="toc" aria-label="케이스 스터디 목차">${toc.map(([id, title], k) => `<li><a href="#${id}"><small>${pad(k + 1)}</small>${title}</a></li>`).join("")}</ol>
+    <div>${s.join("")}</div>
+  </div>
+  <section class="pnext" data-theme="dark" data-room="NEXT|${n.name.toUpperCase()}" style="--pc:${n.color}">
+    <div class="wrap"><span class="eyebrow">NEXT CASE · ${n.no} / ${pad(list.length)}</span></div>
+    <a class="pnext__card" href="project.html?p=${n.id}" data-cur="NEXT" aria-label="다음 프로젝트 ${n.name}"><b>${n.name} →</b><span>${n.sub}</span></a>
+    <footer class="foot"><span>© 2026 홍어진 Hong Eojin</span><a href="index.html#works">ALL WORKS</a><a href="index.html#contact">CONTACT</a><a href="summary.html">1페이지 요약</a><a href="#top">맨 위로 ↑</a></footer>
   </section>`
 
-/* iframe 미리보기를 상자 폭에 맞춰 축소 */
-const fit = () => document.querySelectorAll("iframe[data-w]").forEach((f) => {
-  const W = +f.dataset.w, box = f.parentNode, s = box.clientWidth / W
-  f.style.width = W + "px"
-  f.style.height = box.clientHeight / s + "px"
-  f.style.setProperty("--s", s.toFixed(4))
-})
-fit()
-addEventListener("resize", fit)
-addEventListener("load", fit)
-
-document.querySelectorAll(".fl").forEach((el) => mountFlower(el, el.dataset.c, el.dataset.c === "#D8F36A" ? "#E86A2A" : "#F2C83A"))
-
-/* 풀밭 배경: 페이지를 내려갈수록 아침 → 밤 */
-const lowEnd = mobile || (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4
-const meadow = mountMeadow($("#meadow"), { day: { time: 6 }, flowers: lowEnd ? 3 : 4.5, grass: lowEnd ? 2.5 : 5, depthBlur: lowEnd ? 2 : 4.9, eventTarget: document.documentElement })
-const phase = (h) => (h < 8 ? "SUNRISE" : h < 16 ? "DAYTIME" : h < 19 ? "GOLDEN HOUR" : h < 21 ? "DUSK" : "NIGHT")
-const tint = (h) => (h < 8 ? "#FFCB8C" : h < 16 ? "#FFF4DC" : h < 19 ? "#FF9A6A" : h < 21 ? "#C58AD0" : "#9DB0F0")
-const stem = $(".stem"), clockT = $("#clockT"), clockP = $("#clockP"), clockI = $("#clockI")
-let cur = 6, shown = ""
-gsap.ticker.add(() => {
-  const max = document.documentElement.scrollHeight - innerHeight
-  const p = max > 0 ? Math.min(1, scrollY / max) : 0
-  const t = 6 + 16 * p
-  cur = reduce ? t : cur + (t - cur) * 0.08
-  meadow.props.day.time = cur
-  stem.style.setProperty("--p", p.toFixed(3))
-  const label = pad(Math.floor(cur)) + ":" + pad(Math.floor(((cur % 1) * 60) / 10) * 10)
-  if (label !== shown) { shown = label; clockT.textContent = label; clockP.textContent = phase(cur); clockI.style.background = tint(cur) }
-})
-
-/* 커서 라벨 */
-if (matchMedia("(hover:hover) and (pointer:fine)").matches) {
-  document.documentElement.classList.add("fine")
-  const c = document.createElement("div")
-  c.className = "cur"
-  c.innerHTML = "<span></span>"
-  document.body.append(c)
-  const qx = gsap.quickTo(c, "x", { duration: 0.25, ease: "power3" }), qy = gsap.quickTo(c, "y", { duration: 0.25, ease: "power3" })
-  addEventListener("pointermove", (e) => { c.classList.add("on"); qx(e.clientX); qy(e.clientY) })
-  document.addEventListener("pointerover", (e) => {
-    const t = e.target.closest("[data-cur]")
-    c.classList.toggle("is-label", !!t)
-    c.classList.toggle("is-link", !t && !!e.target.closest("a,button"))
-    if (t) c.firstChild.textContent = t.dataset.cur
+  /* 미리보기 iframe: 화면에 가까워질 때 불러오고, 상자 폭에 맞게 축소 */
+  const fit = () => document.querySelectorAll("iframe[data-w]").forEach((f) => {
+    const W = +f.dataset.w, box = f.parentNode, sc = box.clientWidth / W
+    f.style.width = W + "px"; f.style.height = box.clientHeight / sc + "px"; f.style.setProperty("--s", sc.toFixed(4))
   })
-  document.documentElement.addEventListener("pointerleave", () => c.classList.remove("on"))
-}
+  fit(); addEventListener("resize", fit)
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.src = e.target.dataset.src; io.unobserve(e.target) } }), { rootMargin: "400px" })
+  document.querySelectorAll("iframe[data-src]").forEach((f) => io.observe(f))
 
-/* 등장 효과 (글은 한 번 나타나면 그대로 남음) */
-gsap.registerPlugin(ScrollTrigger)
-if (!reduce) {
-  gsap.from(".phero > *", { y: 40, opacity: 0, duration: 1, stagger: 0.12, ease: "power3.out", delay: 0.2 })
-  const blocks = ".pp-sec .sec-head,.pbox,.cmp__row>*,.browser,.dev,.note2,.badge2,.vlist li,.flow,.pnext .meta,.pnext__card,.foot"
-  gsap.set(blocks, { y: 44, opacity: 0 })
-  ScrollTrigger.batch(blocks, { start: "top 93%", once: true, onEnter: (b) => gsap.to(b, { y: 0, opacity: 1, duration: 0.9, stagger: 0.12, ease: "power3.out", overwrite: true }) })
-}
+  /* 목차: 지금 읽는 장 표시 */
+  const links = [...document.querySelectorAll("#toc a")]
+  const io2 = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) links.forEach((a) => a.classList.toggle("on", a.getAttribute("href") === "#" + e.target.id)) }), { rootMargin: "-45% 0px -50% 0px" })
+  document.querySelectorAll(".cs").forEach((el) => io2.observe(el))
 
-scrollFx(meadow)
+  if (window.gsap && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    gsap.from(".phero h1 .line-mask>span", { yPercent: 110, duration: 1.2, ease: "power4.out", delay: .2 })
+    gsap.from(".crumb,.phero .sub,.phero__grid>*", { y: 40, opacity: 0, duration: 1, stagger: .1, ease: "power3.out", delay: .35 })
+  }
+})()

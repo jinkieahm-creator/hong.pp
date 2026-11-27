@@ -3,149 +3,190 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>홍어진 — 마음을 건네는 화면 | UI/UX 디자이너 포트폴리오</title>
-<meta name="description" content="꽃을 건네듯, 받는 사람이 망설이지 않는 화면을 설계하는 신입 UI/UX 디자이너 홍어진의 포트폴리오.">
-<meta name="theme-color" content="#E2A8AE">
+<title>홍어진 — 망설임 없는 화면 | UI/UX 디자이너 · 웹 퍼블리셔 포트폴리오</title>
+<meta name="description" content="고객이 망설이는 순간을 보고, 망설임 없는 화면을 설계해 직접 코드로 완성합니다. 신입 UI/UX 디자이너 · 웹 퍼블리셔 홍어진의 포트폴리오.">
+<meta name="theme-color" content="#0B0B0B">
 <meta property="og:type" content="website">
-<meta property="og:title" content="홍어진 — 마음을 건네는 화면">
-<meta property="og:description" content="꽃을 건네듯, 받는 사람이 망설이지 않는 화면을 설계합니다. 신입 UI/UX 디자이너 홍어진.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='6' y='6' width='20' height='20' fill='%23FFCB8C'/%3E%3C/svg%3E">
+<meta property="og:title" content="홍어진 — 망설임 없는 화면">
+<meta property="og:description" content="UI/UX 디자이너 · 웹 퍼블리셔 홍어진 포트폴리오 2026">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10' fill='%23C5FF00'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="css/golden.css">
+<link rel="stylesheet" href="css/style.css">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
 </head>
-<body>
-<a class="skip" href="#about">본문으로 바로가기</a>
-<div id="meadow" aria-hidden="true"></div>
-<div class="veil" aria-hidden="true"></div>
+<body data-theme="dark">
+<a class="skip" href="#statement">본문으로 바로가기</a>
 
-<header class="hd">
-  <a class="logo" href="#home" aria-label="홍어진 — 맨 위로"><i></i>홍어진</a>
-  <nav aria-label="주요 메뉴"><a href="#about">About</a><a href="#works">Works</a><a href="#studies">Garden</a><a href="#contact">Contact</a></nav>
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__top"><span>HONG EOJIN</span><span>PORTFOLIO 2026</span></div>
+  <div><div class="loader__num" id="loaderNum">0</div><div class="loader__bar"><i id="loaderBar"></i></div></div>
+</div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a class="logo" href="#top" aria-label="홍어진 — 맨 위로"><i></i>HONG EOJIN</a>
+  <p class="room" aria-hidden="true"><b id="roomNo">00</b><em id="roomName">ENTRANCE</em></p>
+  <nav class="menu" aria-label="주요 메뉴"><a href="#works">Works</a><a href="#about">About</a><a href="#studies">Studies</a><a href="#contact">Contact</a></nav>
+  <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="sheet">MENU</button>
 </header>
-<div class="clock" aria-hidden="true"><i id="clockI"></i><span id="clockT">06:00</span><small id="clockP">SUNRISE</small></div>
-
-<div class="stem" aria-hidden="true"><i></i><b></b></div>
+<nav class="sheet" id="sheet" aria-label="모바일 메뉴">
+  <a href="#works"><small>03</small>Works</a><a href="#about"><small>02</small>About</a><a href="#studies"><small>04</small>Studies</a><a href="#contact"><small>06</small>Contact</a>
+  <p>jinkieahm@naver.com</p>
+</nav>
 
 <main>
-<!-- 06:00 · 씨앗 -->
-<section class="pg screen hero" id="home">
-  <p class="meta">06:00 · SEED · UI/UX Designer · Portfolio 2026</p>
-  <h1>TRUE TO<br>EVERY PETAL.</h1>
-  <p class="slogan">작은 디테일 하나가 한 사람의 선택을 바꿉니다.</p>
-  <p class="sub">주얼리 MD로 일하며 고객이 사진 한 장, 정보의 순서, 문장 하나에 머뭇거리는 모습을 보았습니다. 그래서 꽃을 건네듯, 받는 사람의 마음에 망설임 없이 닿는 화면을 설계합니다. 眞心을 담아.</p>
-  <p class="who"><b>홍어진</b><span>신입 UI/UX 디자이너</span><span>Figma · HTML · CSS · JavaScript</span></p>
-  <div class="quick" id="quick"><a class="btn btn--solid" href="#works" data-cur="WORKS">대표작 3편 보기 ↓</a><a class="btn" href="mailto:jinkieahm@naver.com" data-cur="MAIL"><span class="long">jinkieahm@naver.com</span><span class="short">메일 보내기</span></a><a class="btn" href="summary.html" data-cur="OPEN">1페이지 요약</a></div>
-  <p class="hint">▸ 스크롤하면 하루가 흘러갑니다 · 꽃 스티커를 끌어서 떼어 보세요</p>
-  <div class="stickers" id="stickers" aria-hidden="true"></div>
-  <a class="cue" href="#message">제가 믿는 것 ↓</a>
-</section>
-
-<!-- 07:30 · 메시지 -->
-<section class="pg screen msg" id="message">
-  <span class="meta time" style="display:inline-block;padding:6px 12px;border:1px solid var(--line);border-radius:99px;background:var(--panel);margin-bottom:14px">07:30 · MY MESSAGE</span>
-  <h2>좋은 화면은<br>꽃을 건네는 일과 같습니다.</h2>
-  <ol>
-    <li><b>01 · 받는 사람 먼저</b><strong>망설이지 않도록</strong><span>보는 사람의 입장에서 문제를 정의하고, 정보의 순서부터 고민합니다.</span></li>
-    <li><b>02 · 디테일이 마음</b><strong>가장 예쁜 한 송이가 먼저 보이도록</strong><span>사진 한 장, 문장 하나까지 眞心으로 고르고 살핍니다.</span></li>
-    <li><b>03 · 끝까지 닿게</b><strong>건네는 마음이 끊기지 않도록</strong><span>설계한 화면을 HTML · CSS · JavaScript로 직접 구현합니다.</span></li>
-  </ol>
-  <p class="bridge">이런 생각은 어디서 시작됐을까요? 뿌리부터 보여드리겠습니다.</p>
-</section>
-
-<!-- 09:00 · 뿌리 · 줄기 · 꽃 -->
-<section class="pg screen about" id="about">
-  <header class="sec-head">
-    <span class="meta time">09:00 · ROOTS · STEM · BUD</span>
-    <h2>꽃은 뿌리에서<br>시작합니다</h2>
-    <p class="lead">제 이름 속 眞(참 진)에 心(마음 심)을 더한 眞心처럼, 제 뿌리에는 사람을 향한 마음이 있습니다. 그 마음으로 작은 디테일까지 세심하게 살피고, 생각을 경험으로 완성합니다.</p>
-  </header>
-  <div class="grow">
-    <article class="g g1"><b>ROOTS · 뿌리</b><h3>현장에서 본 것</h3>
-      <p>펠리체골드에서 주얼리 MD로 일하며(2024.11 — 2026.03) 사진 한 장, 정보의 순서, 짧은 문장 하나가 고객의 선택에 영향을 준다는 것을 가까이에서 배웠습니다.</p></article>
-    <article class="g g2"><b>STEM · 줄기</b><h3>쌓아 온 지식</h3>
-      <p>보석감정사 과정 수료 · 보석감정사 · 국제 주얼리 가치평가 디플로마 · 주얼리 딜러 2급 (2024). 고가 상품을 앞에 둔 고객의 불안까지 이해합니다.</p>
-      <p class="small">국제 주얼리 공모전 동상 · 2022</p></article>
-    <article class="g g3"><b>BUD · 꽃봉오리</b><h3>화면으로 피우는 일</h3>
-      <p>그 관찰을 UI/UX 설계로 풀고, 설계한 화면을 코드로 끝까지 구현합니다. 문제를 정의하고 직접 구현하는 것이 저의 방식입니다.</p></article>
-  </div>
-
-</section>
-
-<!-- 10:30 · 도구 -->
-<section class="pg screen" id="tools">
-  <header class="sec-head">
-    <span class="meta time">10:30 · TOOLS</span>
-    <h2>마음을 건네는<br>도구들</h2>
-    <p class="lead">디자인, 개발, 작업 순서로 나누어 정리했습니다.</p>
-  </header>
-  <div class="skills skills--v18" id="skills" aria-label="실무 역량"></div>
-
-  <div class="felice">
-    <button class="felice__btn" id="feliceBtn" type="button" aria-expanded="false" aria-controls="feliceBox"><span>펠리체골드에서 작업한 디자인</span><i aria-hidden="true">+</i></button>
-    <div class="felice__box" id="feliceBox" hidden>
-      <ul>
-        <li><img src="images/felice/sale.jpg" alt="펠리체골드 프로모션 상세페이지" loading="lazy" width="900" height="1125"><span>프로모션 상세페이지</span></li>
-        <li><img src="images/felice/collection.jpg" alt="펠리체골드 컬렉션 상세페이지" loading="lazy" width="900" height="1125"><span>컬렉션 상세페이지</span></li>
-        <li><img src="images/felice/brand.jpg" alt="펠리체골드 브랜드 배너" loading="lazy" width="900" height="900"><span>브랜드 배너</span></li>
-      </ul>
-      <p class="meta">주얼리 MD 업무 중 Photoshop · Illustrator로 제작한 일부입니다.</p>
+<!-- ROOM 00 · ENTRANCE : 작업물이 걸린 3D 복도 -->
+<section class="hero" id="top" data-theme="dark" data-room="00|ENTRANCE">
+  <canvas id="tunnel" aria-hidden="true"></canvas>
+  <div class="warp" id="warp" aria-hidden="true">꾹 누르면 워프</div>
+  <div class="hero__copy">
+    <div class="hero__kicker"><span>PORTFOLIO 2026</span><span>UI/UX DESIGNER</span><span>WEB PUBLISHER</span></div>
+    <h1><span class="line-mask"><span>HONG</span></span><span class="line-mask"><span>EOJIN</span></span></h1>
+    <p class="hero__lead">고객이 망설이는 순간을 보고,<br>망설임 없는 화면을 만듭니다.</p>
+    <p class="hero__sub">주얼리 MD에서 UI/UX 디자이너로. 설계부터 코드까지 직접 합니다.</p>
+    <div class="hero__cta">
+      <a class="btn btn--lime" href="#works">대표작 3편 보기 <span class="arr">↓</span></a>
+      <a class="btn" href="summary.html">1페이지 요약</a>
+      <a class="btn" href="mailto:jinkieahm@naver.com">메일 보내기</a>
     </div>
   </div>
-  <p class="bridge">뿌리와 줄기를 지나, 이제 꽃을 피울 차례입니다.</p>
-</section>
-
-<!-- 12:00 · 개화 (여는 장 + 작품마다 한 장면) -->
-<section class="pg screen" id="works">
-  <header class="sec-head">
-    <span class="meta time">12:00 · BLOOM</span>
-    <h2>제가 피운<br>세 송이</h2>
-    <p class="meta">직접 기획하고 설계하고 배포한 프로젝트 3편</p>
-    <p class="lead">예쁘게 만들기 전에, 먼저 물었습니다. 각 프로젝트는 서로 다른 질문에서 출발했고, 한 송이씩 다른 색으로 피었습니다.</p>
-  </header>
-</section>
-<div id="workList"></div>
-
-<!-- 18:00 · 연습으로 가꾼 밭 -->
-<section class="pg screen" id="studies">
-  <header class="sec-head">
-    <span class="meta time">18:00 · GOLDEN HOUR · PRACTICE GARDEN</span>
-    <h2>STUDY. ANALYZE.<br>REBUILD.</h2>
-    <p class="meta">연습으로 가꾼 밭 — 구현력을 위한 학습 작업 9개 · 스크롤하면 옆으로 넘어갑니다 →</p>
-    <div class="note"><span class="badge">PERSONAL STUDY</span><p>기존 웹사이트를 관찰하고 분석해 직접 다시 만든 <b>개인 학습 및 재현 작업</b>입니다. 클라이언트 작업이나 서비스 운영 경험이 아니며, 원본 디자인의 저작권은 각 원본 사이트에 있습니다.</p></div>
-  </header>
-  <div class="studyrail"><ul class="studygrid" id="studyList"></ul></div>
-  <p class="bridge">연습하며 정리한, 제가 일하는 순서입니다.</p>
-</section>
-
-<!-- 20:00 · 가꾸는 순서 -->
-<section class="pg screen" id="process">
-  <header class="sec-head">
-    <span class="meta time">20:00 · DUSK</span>
-    <h2>HOW I<br>THINK.</h2>
-    <p class="meta">문제에서 화면까지, 꽃이 피는 순서</p>
-  </header>
-  <ol class="steps" id="steps"></ol>
-  <p class="bridge">이제, 별빛 아래에서 이야기를 나누고 싶습니다.</p>
-</section>
-
-<!-- 22:00 · 밤 -->
-<section class="pg screen contact" id="contact">
-  <div class="wrap">
-    <span class="meta">22:00 · NIGHT · 眞心으로 답하겠습니다</span>
-    <h2>LET’S GROW<br>SOMETHING<br>TOGETHER.</h2>
-    <div class="mail"><a id="mail" href="mailto:jinkieahm@naver.com">jinkieahm@naver.com</a><button class="copy" id="copy" type="button">COPY</button></div>
-    <footer class="foot"><span>© 2026 홍어진. All rights reserved.</span><span>UI/UX Designer</span><a href="#home">맨 위로 ↑</a></footer>
+  <div class="stickers" id="stickers" aria-hidden="true"></div>
+  <div class="hero__side" aria-hidden="true">
+    <span class="hold">스티커를 떼어서 아무 데나 붙여 보세요<br>빈 곳을 꾹 누르면 작업물 사이로 빨라집니다</span>
+    <span class="scroll">SCROLL TO ENTER<i></i></span>
   </div>
 </section>
+
+<!-- ROOM 01 · STATEMENT -->
+<section class="statement" id="statement" data-theme="light" data-room="01|MESSAGE">
+  <div class="docent">
+    <div class="docent__text">
+      <span class="eyebrow">ROOM 01 · MY MESSAGE</span>
+      <p class="statement__text" id="stmt">사람들은 사진 한 장, 문장 하나에서 멈칫합니다. 저는 그 멈춤을 찾아, 다음 행동이 바로 보이는 화면으로 바꿉니다.</p>
+    </div>
+    <figure class="docent__robot">
+      <p class="bubble" id="bubble" aria-live="polite"></p>
+      <div class="robot-frame" id="robot" aria-label="도슨트 로봇 — 누르면 다음 안내를 들려줍니다"></div>
+      <figcaption><span>DOCENT</span><span>커서를 따라 고개를 돌려요 · 눌러서 말을 걸어 보세요</span></figcaption>
+    </figure>
+  </div>
+  <div class="principles">
+    <article class="pr rv"><small>01 · OBSERVE</small><h3>멈추는 곳부터 찾고</h3><p>어디서 망설이는지 먼저 봅니다.</p></article>
+    <article class="pr rv"><small>02 · EDIT</small><h3>중요한 것부터 보이게</h3><p>순서를 정하고, 필요 없는 것은 덜어 냅니다.</p></article>
+    <article class="pr rv"><small>03 · BUILD</small><h3>끝까지 직접 만듭니다</h3><p>설계한 화면을 코드로 완성합니다.</p></article>
+  </div>
+  <figure class="install">
+    <canvas class="field" data-density="1" data-heads="0.16" aria-hidden="true"></canvas>
+    <figcaption><span>INSTALLATION · WIND</span><span>마우스로 휘저어 보세요. 빠르게 스크롤하면 돌풍이 붑니다.</span></figcaption>
+  </figure>
+</section>
+
+<!-- ROOM 02 · ABOUT -->
+<section class="about" id="about" data-theme="light" data-room="02|ABOUT">
+  <header class="room-head">
+    <div><span class="eyebrow">ROOM 02 · ABOUT</span><h2 class="split">PROFILE<span class="ko">그 멈춤을 처음 본 곳은<br>주얼리 매장이었습니다</span></h2></div>
+    <p class="rv">MD로 일한 경험이 디자인의 출발점이 됐습니다.</p>
+  </header>
+  <div class="about__grid">
+    <article class="panel story rv">
+      <h3>STORY</h3>
+      <p>같은 상품도 <span class="mark">사진 한 장, 문장 하나</span>에 따라 팔리기도, 지나치기도 했습니다.</p>
+      <p>펠리체골드에서 상품 기획부터 플랫폼 입점, 광고까지 맡으며 그 차이를 매일 봤습니다. 그래서 화면을 직접 설계하고 만드는 사람이 되기로 했습니다.</p>
+      <div class="roots">
+        <div><b>01 · 현장</b><span>고객이 멈추는 순간을 봤습니다</span></div>
+        <div><b>02 · 지식</b><span>고가 상품 앞의 불안을 압니다</span></div>
+        <div><b>03 · 화면</b><span>설계부터 코드까지 직접 합니다</span></div>
+      </div>
+    </article>
+    <div class="stack">
+      <article class="panel rv">
+        <h3>EXPERIENCE &amp; CERTIFICATES</h3>
+        <ul class="tl-list" id="career"></ul>
+      </article>
+      <article class="panel rv">
+        <h3>SKILLS</h3>
+        <dl class="skills" id="skills"></dl>
+        <div class="felice">
+          <button class="felice__btn" id="feliceBtn" type="button" aria-expanded="false" aria-controls="feliceBox"><span>펠리체골드에서 작업한 디자인</span><i aria-hidden="true">+</i></button>
+          <div class="felice__box" id="feliceBox" hidden>
+            <button type="button" data-cur="ZOOM" aria-label="프로모션 상세페이지 크게 보기"><img src="images/felice/sale.jpg" alt="펠리체골드 프로모션 상세페이지" loading="lazy" width="900" height="1125"></button>
+            <button type="button" data-cur="ZOOM" aria-label="컬렉션 상세페이지 크게 보기"><img src="images/felice/collection.jpg" alt="펠리체골드 컬렉션 상세페이지" loading="lazy" width="900" height="1125"></button>
+            <button type="button" data-cur="ZOOM" aria-label="브랜드 배너 크게 보기"><img src="images/felice/brand.jpg" alt="펠리체골드 브랜드 배너" loading="lazy" width="900" height="900"></button>
+          </div>
+          <small>MD 업무 중 Photoshop · Illustrator로 만든 디자인 일부</small>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ROOM 03 · SELECTED WORKS : 가로로 흐르는 블랙박스 -->
+<section class="works" id="works" data-theme="dark" data-room="03|SELECTED WORKS">
+  <header class="room-head">
+    <div><span class="eyebrow">ROOM 03 · SELECTED WORKS</span><h2 class="split">WORKS<span class="ko">그래서 만든<br>세 개의 화면</span></h2></div>
+    <p class="rv">모두 "사용자는 어디서 망설일까?"라는 질문에서 시작했습니다. 화면을 누르면 케이스 스터디가 열립니다.</p>
+  </header>
+  <div class="hz" id="hz">
+    <div class="hz__track" id="workList"></div>
+    <div class="hz__bar" aria-hidden="true"><div><i id="hzBar"></i></div></div>
+  </div>
+</section>
+
+<!-- ROOM 04 · STUDIES -->
+<section class="studies" id="studies" data-theme="dark" data-room="04|STUDIES">
+  <header class="room-head">
+    <div><span class="eyebrow">ROOM 04 · REBUILD STUDIES</span><h2 class="split">STUDY.<br>ANALYZE.<br>REBUILD.</h2></div>
+    <p class="rv">잘 만든 사이트 9개를 분석하고 다시 만들며 손을 익혔습니다.<span class="pc-only"> 이름에 마우스를 올리면 미리 볼 수 있어요.</span></p>
+  </header>
+  <div class="note rv"><p><b>PERSONAL STUDY</b>개인 학습용 재현 작업입니다. 원본 디자인의 저작권은 각 사이트에 있습니다.</p></div>
+  <ul class="index" id="studyList"></ul>
+</section>
+
+<!-- ROOM 05 · PROCESS -->
+<section class="process" id="process" data-theme="light" data-room="05|PROCESS">
+  <header class="room-head">
+    <div><span class="eyebrow">ROOM 05 · HOW I THINK</span><h2 class="split">PROCESS<span class="ko">모든 작업은 같은 순서로</span></h2></div>
+    <p class="rv">케이스 스터디도 이 순서대로 읽을 수 있습니다.</p>
+  </header>
+  <ol class="steps" id="steps"><i class="fill" id="stepsFill" aria-hidden="true"></i></ol>
+</section>
+
+<!-- ROOM 06 · CONTACT -->
+<section class="contact" id="contact" data-theme="light" data-room="06|CONTACT">
+  <div class="wrap"><span class="eyebrow">ROOM 06 · CONTACT</span></div>
+  <h2 class="huge split">LET’S WORK<br>TOGETHER.</h2>
+  <p class="contact__lead wrap rv">망설임 없는 화면, 함께 만들고 싶습니다.</p>
+  <div class="fur-stage" id="furStage">
+    <p class="vcap">털을 쓰다듬어 보세요. 누르면 메일 주소가 복사됩니다.</p>
+  </div>
+  <div class="reach" id="reach">
+    <a href="mailto:jinkieahm@naver.com"><small>EMAIL</small><b>jinkieahm@naver.com</b><span>메일 보내기 ↗</span></a>
+    <a href="tel:01047126458"><small>PHONE</small><b>010-4712-6458</b><span>전화 걸기 ↗</span></a>
+    <a href="summary.html"><small>ONE PAGE</small><b>1페이지 요약</b><span>인쇄 · PDF 저장 가능 →</span></a>
+  </div>
+  <figure class="install install--exit">
+    <canvas class="field" data-density=".8" data-heads="0.1" aria-hidden="true"></canvas>
+  </figure>
+</section>
 </main>
+<footer class="foot" data-theme="dark" data-room="06|CONTACT"><span>© 2026 홍어진 Hong Eojin. All rights reserved.</span><span>Designed &amp; coded by Hong Eojin · HTML / CSS / JavaScript / GSAP / three.js</span><a href="#top">맨 위로 ↑</a></footer>
+
+<div class="lb" id="lb" hidden><img alt=""><button type="button">닫기 ✕</button></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="curtain" id="curtain" aria-hidden="true">HONG EOJIN</div>
 
 <script src="vendor/gsap.min.js"></script>
 <script src="vendor/ScrollTrigger.min.js"></script>
 <script src="js/data.js"></script>
-<script type="module" src="js/golden.js"></script>
+<script src="js/common.js"></script>
+<script src="js/main.js"></script>
+<script src="js/field.js"></script>
+<script type="module" src="js/tunnel.js"></script>
+<script type="module" src="js/stickers.js"></script>
+<script type="module" src="js/docent.js"></script>
+<script type="module" src="js/hello.js"></script>
 </body>
 </html>

@@ -1,119 +1,129 @@
-/* common.js — 공통: 페이지 전환 커튼, 커서, 메뉴, 최상단 버튼, 유틸 */
-(() => {
-  'use strict';
-  const $ = (s, r = document) => r.querySelector(s);
-  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-  const root = document.documentElement;
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
-  const hasG = !!(window.gsap && window.ScrollTrigger) && !reduce;
-  const curtain = $('.curtain');
-  const store = { get: k => { try { return sessionStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { sessionStorage.setItem(k, v); } catch {} } };
+/* common.js — 메인·상세 페이지 공통
+   조명 전환(밝은 방/어두운 방), 현재 방 표시, 진행 바, 메뉴, 커서 라벨, 페이지 전환 막, 등장 효과 */
+(function () {
+  const $ = (s, r = document) => r.querySelector(s)
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)]
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches
+  const fine = matchMedia("(hover:hover) and (pointer:fine)").matches
+  const hasGsap = !!(window.gsap && window.ScrollTrigger)
+  window.UI = { $, $$, reduce, fine, hasGsap }
 
-  if (!hasG) root.classList.remove('js');
-  if (hasG) gsap.registerPlugin(ScrollTrigger);
+  /* toast */
+  let tt = 0
+  UI.toast = (msg) => { const t = $("#toast"); if (!t) return; t.textContent = msg; t.classList.add("show"); clearTimeout(tt); tt = setTimeout(() => t.classList.remove("show"), 2600) }
 
-  /* iframe 미리보기를 컨테이너 폭에 맞춰 축소 (data-w: 원래 가로폭) */
-  const fit = (scope = document) => $$('iframe[data-w]', scope).forEach(f => {
-    const w = +f.dataset.w, box = f.parentNode, s = box.clientWidth / w;
-    f.style.width = w + 'px'; f.style.height = (box.clientHeight / s) + 'px'; f.style.setProperty('--s', s.toFixed(4));
-  });
-  addEventListener('resize', () => fit());
-
-  /* 커튼 전환 */
-  const wipeIn = (color, then) => {
-    if (color) curtain.style.background = color;
-    gsap.timeline().set(curtain, { transformOrigin: '50% 100%' })
-      .fromTo(curtain, { scaleY: 0 }, { scaleY: 1, duration: .55, ease: 'power3.inOut' }).add(then);
-  };
-  const wipeOut = () => gsap.timeline().set(curtain, { transformOrigin: '50% 0' })
-    .to(curtain, { scaleY: 0, duration: .65, ease: 'power3.inOut' });
-
-  const go = (href, color) => {
-    if (!hasG) { location.href = href; return; }
-    store.set('cimC', color || '#1C1729');
-    wipeIn(color || '#1C1729', () => { location.href = href; });
-  };
-
-  const CIM = { $, $$, root, reduce, fine, hasG, fit, go, wipeIn, wipeOut, data: window.CIM_DATA };
-  window.CIM = CIM;
-
-  /* 이미지: 로컬(images/) 우선 → 실패하면 원격 → 그래도 실패하면 제거(플레이스홀더 노출) */
-  CIM.img = (w, alt, lazy) => `<img src="${w.local || w.img}" alt="${alt}"${lazy ? ' loading="lazy"' : ''} data-remote="${w.local ? w.img : ''}" onerror="CIM.imgFail(this)">`;
-  CIM.imgFail = el => { const r = el.dataset.remote; if (r) { el.dataset.remote = ''; el.src = r; } else el.remove(); };
-
-  /* 스크롤하면 헤더에 반투명 배경 */
-  const hdEl = $('.hd');
-  if (hdEl) { const u = () => hdEl.classList.toggle('is-solid', scrollY > 60); addEventListener('scroll', u, { passive: true }); u(); }
-
-  /* 첫 진입/페이지 도착 시 커튼 열기 */
-  CIM.revealTl = gsap.timeline && hasG ? gsap.timeline({ delay: .1 }) : null;
-  if (hasG && curtain) {
-    const c = store.get('cimC'); if (c) curtain.style.background = c;
-    CIM.revealTl.set(curtain, { transformOrigin: '50% 0' }).to(curtain, { scaleY: 0, duration: .9, ease: 'power3.inOut' });
-  }
-  addEventListener('pageshow', e => { if (e.persisted && hasG) gsap.set(curtain, { scaleY: 0 }); });
-
-  /* 링크: data-go(페이지 이동) / 페이지 내 앵커 */
-  document.addEventListener('click', e => {
-    const a = e.target.closest('a'); if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || a.target === '_blank') return;
-    const href = a.getAttribute('href') || '';
-    if (a.hasAttribute('data-go')) { e.preventDefault(); go(a.href, a.dataset.color); return; }
-    if (href.startsWith('#')) {
-      const t = href.length > 1 ? $(href) : null;
-      if (!t && href !== '#home') return;
-      e.preventDefault();
-      setMenu(false);
-      (t || document.body).scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  /* 조명 전환 + 현재 방: 화면 가운데에 걸친 섹션 기준 */
+  const rooms = $$("[data-theme]").filter((el) => el !== document.body)
+  const roomNo = $("#roomNo"), roomName = $("#roomName")
+  const setRoom = (el) => {
+    if (!el) return
+    if (document.body.dataset.theme !== el.dataset.theme) {
+      document.body.dataset.theme = el.dataset.theme
+      const m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = el.dataset.theme === "dark" ? "#0B0B0B" : "#F2F1EC"
     }
-  });
+    if (roomNo && el.dataset.room) { const [n, name] = el.dataset.room.split("|"); if (roomNo.textContent !== n) { roomNo.textContent = n; roomName.textContent = name } }
+    const id = el.id
+    $$(".menu a").forEach((a) => a.classList.toggle("on", !!id && a.getAttribute("href") === "#" + id))
+  }
+  const pick = () => {
+    const mid = innerHeight * 0.5
+    let hit = null
+    for (const el of [...rooms].reverse()) { const r = el.getBoundingClientRect(); if (r.top <= mid && r.bottom > mid) { hit = el; break } }
+    if (!hit) { // 맨 아래(푸터)처럼 가운데에 아무것도 없을 때
+      hit = rooms.filter((el) => el.getBoundingClientRect().top < innerHeight).pop()
+    }
+    setRoom(hit)
+  }
+
+  /* 진행 바 + 내비 배경/숨김 */
+  const nav = $("#nav"), bar = $("#progress")
+  let lastY = scrollY, ticking = false
+  const onScroll = () => {
+    ticking = false
+    const y = scrollY, max = document.documentElement.scrollHeight - innerHeight
+    if (bar) bar.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`
+    if (nav) {
+      nav.classList.toggle("solid", y > 40)
+      const sheetOpen = document.body.classList.contains("menu-open")
+      nav.classList.toggle("hide", !sheetOpen && y > lastY + 4 && y > innerHeight * 0.8)
+      if (y < lastY - 4) nav.classList.remove("hide")
+    }
+    lastY = y
+    pick()
+  }
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll) } }, { passive: true })
+  addEventListener("resize", onScroll)
+  onScroll()
 
   /* 모바일 메뉴 */
-  const menu = $('.hd__menu'), mnav = $('#mnav');
-  function setMenu(o) {
-    if (!menu) return;
-    menu.setAttribute('aria-expanded', o); menu.setAttribute('aria-label', o ? '메뉴 닫기' : '메뉴 열기');
-    mnav.hidden = !o; root.style.overflow = o ? 'hidden' : ''; document.body.classList.toggle('menu-open', o);
-  }
-  menu && menu.addEventListener('click', () => setMenu(menu.getAttribute('aria-expanded') !== 'true'));
-  addEventListener('resize', () => { if (innerWidth > 900 && mnav && !mnav.hidden) setMenu(false); });
-  addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
-
-  /* 최상단 이동 버튼 */
-  const top = $('#totop');
-  if (top) {
-    const upd = () => top.classList.toggle('on', scrollY > innerHeight * .8);
-    addEventListener('scroll', upd, { passive: true }); upd();
-    top.addEventListener('click', () => scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }));
+  const mb = $("#menuBtn"), sheet = $("#sheet")
+  if (mb && sheet) {
+    const set = (open) => { sheet.classList.toggle("open", open); document.body.classList.toggle("menu-open", open); mb.setAttribute("aria-expanded", open); mb.textContent = open ? "CLOSE" : "MENU"; document.documentElement.style.overflow = open ? "hidden" : "" }
+    mb.addEventListener("click", () => set(!sheet.classList.contains("open")))
+    $$("a", sheet).forEach((a) => a.addEventListener("click", () => set(false)))
+    addEventListener("keydown", (e) => { if (e.key === "Escape" && sheet.classList.contains("open")) { set(false); mb.focus() } })
   }
 
-  /* 커서 라벨 */
-  if (fine && hasG) {
-    const c = $('.cursor'), lb = $('span', c);
-    const mx = gsap.quickTo(c, 'x', { duration: .4, ease: 'power3' }), my = gsap.quickTo(c, 'y', { duration: .4, ease: 'power3' });
-    addEventListener('mousemove', e => { mx(e.clientX); my(e.clientY); }, { passive: true });
-    document.addEventListener('mouseover', e => {
-      const t = e.target.closest('[data-cur]');
-      if (t) { lb.textContent = t.dataset.cur; c.classList.toggle('is-view', t.dataset.cur === 'View'); c.classList.add('is-on'); } else c.classList.remove('is-on');
-    });
-    document.addEventListener('mouseleave', () => c.classList.remove('is-on'));
+  /* 커서 라벨: data-cur 가 붙은 요소 위에서만 형광 원으로 바뀜 */
+  if (fine) {
+    document.documentElement.classList.add("fine")
+    const c = document.createElement("div"); c.className = "cur"; c.setAttribute("aria-hidden", "true"); document.body.append(c)
+    let x = -200, y = -200, cx = x, cy = y
+    addEventListener("pointermove", (e) => { x = e.clientX; y = e.clientY }, { passive: true })
+    const loop = () => { cx += (x - cx) * 0.22; cy += (y - cy) * 0.22; c.style.translate = `${cx}px ${cy}px`; requestAnimationFrame(loop) }
+    loop()
+    document.addEventListener("pointerover", (e) => { const t = e.target.closest && e.target.closest("[data-cur]"); if (t) { c.textContent = t.dataset.cur; c.classList.add("on") } else c.classList.remove("on") })
+    document.documentElement.addEventListener("pointerleave", () => c.classList.remove("on"))
   }
 
-  /* 복사 버튼 */
-  const copy = $('#copy');
-  copy && copy.addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText($('#mail').textContent.trim()); copy.textContent = 'COPIED'; } catch { copy.textContent = 'CTRL+C'; }
-    setTimeout(() => copy.textContent = 'COPY', 1600);
-  });
+  /* 페이지 전환 막: 같은 사이트의 다른 페이지로 갈 때 */
+  const curtain = $("#curtain")
+  if (curtain && !reduce) {
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest("a[href]")
+      if (!a || a.target === "_blank" || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
+      const href = a.getAttribute("href")
+      if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:") || /^https?:/.test(href)) return
+      e.preventDefault()
+      curtain.classList.remove("out"); curtain.classList.add("in")
+      setTimeout(() => { location.href = href }, 520)
+    })
+    addEventListener("pageshow", () => { curtain.classList.remove("in"); curtain.classList.add("out") })
+  }
 
-  /* 헤드라인 줄 마스크 등장 (data-lines) */
-  CIM.revealLines = scope => $$('[data-lines]', scope).forEach(h => {
-    const spans = $$('.ln>span', h);
-    gsap.set(spans, { y: 0, yPercent: 112 });
-    gsap.to(spans, { yPercent: 0, duration: 1.1, stagger: .1, ease: 'power4.out', scrollTrigger: { trigger: h, start: 'top 88%' } });
-  });
-  CIM.fadeIn = scope => $$('[data-fade]', scope).forEach(el => {
-    gsap.set(el, { y: 24 });
-    gsap.to(el, { opacity: 1, y: 0, duration: .9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 90%' } });
-  });
-})();
+  /* 큰 제목: 줄 단위로 아래에서 올라오기 / 문단·카드: 부드럽게 등장 (한 번 나타나면 계속 보임) */
+  UI.reveal = () => {
+    if (!hasGsap || reduce) return
+    gsap.registerPlugin(ScrollTrigger)
+    $$(".split").forEach((h) => {
+      if (h.dataset.split) return; h.dataset.split = "1"
+      // <br> 과 .ko 블록 기준으로 줄을 감쌈
+      const parts = []; let buf = ""
+      const flush = () => { if (buf.trim()) parts.push(`<span class="line-mask"><span>${buf}</span></span>`); buf = "" }
+      h.childNodes.forEach((n) => {
+        if (n.nodeName === "BR") flush()
+        else if (n.nodeType === 1 && n.classList.contains("ko")) { flush(); parts.push(`<span class="ko">${n.innerHTML.split(/<br\s*\/?>/i).map((l) => `<span class="line-mask"><span>${l}</span></span>`).join("")}</span>`) }
+        else buf += n.nodeType === 3 ? n.textContent : n.outerHTML
+      })
+      flush(); h.innerHTML = parts.join("")
+      const lines = $$(".line-mask>span", h)
+      gsap.set(lines, { yPercent: 110 })
+      ScrollTrigger.create({ trigger: h, start: "top 86%", once: true, onEnter: () => gsap.to(lines, { yPercent: 0, duration: 1.1, stagger: 0.08, ease: "power4.out" }) })
+    })
+    const rv = $$(".rv")
+    gsap.set(rv, { y: 40, opacity: 0 })
+    const show = (b) => {
+      b.forEach((el) => (el.dataset.shown = 1))
+      const above = b.filter((el) => el.getBoundingClientRect().bottom < 0), inView = b.filter((el) => !above.includes(el))
+      if (above.length) gsap.set(above, { y: 0, opacity: 1, overwrite: true }) // 지나친 글은 바로 보이게
+      if (inView.length) gsap.to(inView, { y: 0, opacity: 1, duration: 1, stagger: Math.min(0.1, 0.6 / inView.length), ease: "power3.out", overwrite: true })
+    }
+    ScrollTrigger.batch(rv, { start: "top 90%", once: true, onEnter: show, onLeave: show, onEnterBack: show })
+    // 목차·메뉴로 크게 건너뛰었을 때도 화면 안의 글이 빠짐없이 보이도록
+    let sweep = 0
+    const check = () => { const hidden = rv.filter((el) => !el.dataset.shown && el.getBoundingClientRect().top < innerHeight * 0.95); if (hidden.length) show(hidden) }
+    addEventListener("scroll", () => { clearTimeout(sweep); sweep = setTimeout(check, 180) }, { passive: true })
+    const lines = $$(".split .line-mask>span")
+    addEventListener("scroll", () => setTimeout(() => lines.forEach((l) => { if (l.getBoundingClientRect().top < innerHeight * 0.95 && gsap.getProperty(l, "yPercent") > 100) gsap.to(l, { yPercent: 0, duration: 1, ease: "power4.out" }) }), 200), { passive: true })
+  }
+})()

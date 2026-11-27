@@ -18,7 +18,17 @@
    ▸ studies[]: 9개 모두 목록에 표시되고, 행을 누르면 재현 사이트 미리보기와 정보가 펼쳐집니다.
    ▸ studies[].origUrl / responsive : 있을 때만 화면에 표시됩니다. */
 window.CIM_DATA = {
-  person: { name: '홍어진', mail: 'jinkieahm@naver.com' },
+  person: { name: '홍어진', nameEn: 'HONG EOJIN', role: '신입 UI/UX 디자이너 · 웹 퍼블리셔', mail: 'jinkieahm@naver.com', phone: '010-4712-6458' },
+
+  /* ---------- About (이력) ---------- */
+  career: [
+    { period: '2024.11 — 2026.03', title: '펠리체골드 · 주얼리 MD', text: '상품 기획 · 발주 · 11번가·GS·롯데온 입점 · 광고 집행' },
+    { period: '2026', title: 'UI/UX · 웹 퍼블리싱으로 전환', text: 'Figma로 설계하고 HTML · CSS · JavaScript로 구현' }
+  ],
+  certs: [
+    { period: '2024', title: '보석감정사 · 국제 주얼리 가치평가 디플로마 · 주얼리 딜러 2급' },
+    { period: '2022', title: '국제 주얼리 공모전 동상' }
+  ],
 
   /* ---------- Selected Works ---------- */
   works: [
@@ -784,10 +794,10 @@ window.CIM_DATA = {
 
   /* ---------- Process ---------- */
   process: [
-    ['DISCOVER', '고객과 맥락 관찰', '누가, 어떤 상황에서, 무엇이 불안해 멈추는지 먼저 봅니다.'],
-    ['DEFINE', '문제를 한 문장으로 정의', '해결할 문제와 우선순위를 정해 설계의 기준을 만듭니다.'],
-    ['DESIGN', '정보 구조·플로우·시안', 'Figma로 구조와 화면을 설계하고, 대안을 비교해 결정합니다.'],
-    ['BUILD', 'HTML, CSS, JavaScript 구현', '설계한 화면을 반응형으로 직접 구현하고 인터랙션을 더합니다.'],
-    ['REFINE', '점검과 개선', '기기별로 다시 보고 사용 흐름의 막힘을 찾아 고칩니다.']
+    ['DISCOVER', '관찰', '누가, 어디서 멈추는지 먼저 봅니다.'],
+    ['DEFINE', '정의', '풀어야 할 문제를 한 문장으로 적습니다.'],
+    ['DESIGN', '설계', '구조와 흐름을 Figma로 그리고, 대안과 비교합니다.'],
+    ['BUILD', '구현', '설계한 화면을 반응형으로 직접 코딩합니다.'],
+    ['REFINE', '개선', '기기마다 다시 보고, 막히는 곳을 고칩니다.']
   ]
 };
