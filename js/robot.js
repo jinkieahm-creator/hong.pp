@@ -1,4 +1,4 @@
-/* robot.js — 점토 로봇 도슨트 (Originkit "Clay Robot" 을 React/Framer 없이 바닐라 JS 로 옮김)
+/* robot.js — 점토 로봇 (안내 로봇 지니) (Originkit "Clay Robot" 을 React/Framer 없이 바닐라 JS 로 옮김)
    mountClayRobot(부모요소, { background, colors, response, walk, wave ... }) → { el, wake, destroy }
    커서를 따라 고개·눈을 돌리고, 걸어오고, 손을 흔들고, 누르면 점프합니다. WebGL2 필요. */
 /* eslint-disable */
@@ -783,7 +783,7 @@ export function mountClayRobot(hostParent, props = {}) {
     const hostEl = document.createElement("div");
     hostEl.className = "clay-robot";
     hostEl.setAttribute("role", "img");
-    hostEl.setAttribute("aria-label", "커서를 따라 고개를 돌리는 점토 로봇 도슨트");
+    hostEl.setAttribute("aria-label", "커서를 따라 고개를 돌리는 안내 로봇 지니");
     const curve = adv.gradientCurve;
     const stops = [0, 0.25, 0.5, 0.75, 1].map((v) => {
         const a = toRGB(bgc.top, DEFAULT_BACKGROUND.top), b = toRGB(bgc.bottom, DEFAULT_BACKGROUND.bottom);

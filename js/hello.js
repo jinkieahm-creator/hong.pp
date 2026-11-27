@@ -1,4 +1,4 @@
-/* hello.js — CONTACT 의 털 버튼 (SAY HELLO)
+/* hello.js — CONTACT 의 털 버튼 (PICK ME)
    누르면 메일 주소가 복사되고 연락처 카드로 내려갑니다. */
 import { mountAngora } from "./angora.js"
 
@@ -6,7 +6,7 @@ const stage = document.getElementById("furStage")
 if (stage) {
   const small = innerWidth < 761
   mountAngora(stage, {
-    label: "SAY HELLO",
+    label: "PICK ME",
     background: "#F2F1EC",
     furColor: "#C5FF00",
     textColor: "#111111",

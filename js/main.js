@@ -14,7 +14,7 @@
 
   const img = (w) => `<img src="${w.local}" alt="${w.name} 메인 화면" loading="lazy" onerror="if(this.dataset.f){this.remove()}else{this.dataset.f=1;this.src='${w.img}'}">`
   $("#workList").innerHTML =
-    `<article class="wk wk--intro"><div><div class="big">${pad(D.works.length)}</div><p>선물, 브랜드 감도, 신뢰.<br>질문 셋, 화면 셋.<span class="h-only"><br>옆으로 넘겨 보세요 →</span></p></div></article>` +
+    `<article class="wk wk--intro"><div><p class="intro-lead">선물,<br>브랜드 감도,<br>신뢰.</p><p>세 가지 질문에서 출발한<br>세 개의 화면입니다.<span class="h-only"><br>옆으로 넘겨 보세요 →</span></p></div></article>` +
     D.works.map((w, i) => `
     <article class="wk" id="w-${w.id}" style="--c:${w.color}">
       <a class="frame" href="project.html?p=${w.id}" data-cur="VIEW" aria-label="${w.name} 케이스 스터디 보기">
@@ -105,7 +105,7 @@
 
   // 01 메시지: 스크롤에 따라 단어에 불이 켜짐 (켜진 글자는 다시 꺼지지 않음 → 끝까지 읽을 수 있음)
   const st = $("#stmt")
-  st.innerHTML = st.textContent.trim().split(/\s+/).map((w) => `<span class="w">${w}</span>`).join(" ")
+  $$(".ln", st).forEach((ln) => { ln.innerHTML = ln.textContent.trim().split(/\s+/).map((w) => `<span class="w">${w}</span>`).join(" ") })
   const words = $$(".w", st)
   if (reduce) words.forEach((w) => w.classList.add("lit"))
   else {
