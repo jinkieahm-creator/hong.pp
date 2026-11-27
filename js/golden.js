@@ -277,11 +277,21 @@ if (location.hash && $(location.hash)) addEventListener("load", () => setTimeout
   const host = $("#stickers")
   if (host) {
     const place = () => {
-      const W = innerWidth, size = W < 560 ? 84 : W < 860 ? 104 : 136, hw = host.clientWidth, hh = host.clientHeight
-      const spots = W < 860
-        ? [["#FF704F", "#F2C83A", -8, 0.04, hh / 2], ["#D8F36A", "#E86A2A", 9, 0.36, hh / 2 + 4], ["#354BFF", "#FFD9A0", -5, 0.68, hh / 2]]
-        : [["#FF704F", "#F2C83A", -8, 0.8, hh * 0.14], ["#D8F36A", "#E86A2A", 9, 0.9, hh * 0.36], ["#354BFF", "#FFD9A0", -5, 0.76, hh * 0.56]]
-      spots.forEach(([p, c, r, fx, cy]) => mountSticker(host, { source: flowerSticker(p, c, r), width: size, height: size, x: Math.min(hw - size, fx * hw), y: cy - size / 2 }))
+      const W = innerWidth, small = W < 860, size = W < 560 ? 66 : W < 860 ? 88 : 128, hw = host.clientWidth, hh = host.clientHeight
+      // [모양, 꽃잎색, 꽃술색, 기울기, 크기배율, PC 위치(x,y 비율), 모바일·태블릿 위치(x 비율, y 오프셋)]
+      const list = [
+        ["cross", "#FF704F", "#F2C83A", -8, 1.15, [0.78, 0.13], [0.0, 6]],
+        ["tulip", "#F08AB0", "#F2C83A", 7, 0.8, [0.91, 0.3], [0.2, 26]],
+        ["daisy", "#354BFF", "#FFD9A0", -5, 1.0, [0.74, 0.47], [0.4, 0]],
+        ["spike", "#B48CF0", "#FFF1B8", 9, 0.9, [0.89, 0.6], [0.6, 22]],
+        ["clover", "#D8F36A", "#E86A2A", -10, 0.72, [0.62, 0.63], [0.8, 8]],
+      ]
+      list.forEach(([k, p, c, r, m, pc, mo]) => {
+        const sz = Math.round(size * m)
+        const x = small ? mo[0] * (hw - sz) : Math.min(hw - sz, pc[0] * hw)
+        const y = small ? mo[1] : pc[1] * hh - sz / 2
+        mountSticker(host, { source: flowerSticker(k, p, c, r), width: sz, height: sz, x, y })
+      })
     }
     // 글꼴이 자리 잡아 첫 화면 높이가 정해진 뒤에 배치
     Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1500))]).then(place)

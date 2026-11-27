@@ -167,15 +167,29 @@ export function mountSticker(host, opt = {}) {
   return { el, destroy() { cancelAnimationFrame(raf); el.remove() } }
 }
 
-/* 픽셀 꽃 스티커 그림 (흰 테두리로 오려 낸 느낌) */
-export function flowerSticker(petal, centre = "#F2C83A", rot = 0) {
+/* 픽셀 꽃 스티커 그림 (흰 테두리로 오려 낸 느낌)
+   kind: cross(네 잎) · daisy(여덟 잎) · tulip(튤립) · clover(대각 네 잎) · spike(라벤더) */
+const G = "#4A8C24", G2 = "#2C5A16"
+const SHAPES = (kind, p, c) => {
+  const stem = (x, y, h) => [G, x, y, 16, h]
+  switch (kind) {
+    case "daisy": return [stem(120, 160, 80), [G2, 82, 196, 36, 16], [G2, 138, 172, 36, 16],
+      ...[[62, 34], [111, 34], [160, 34], [62, 83], [160, 83], [62, 132], [111, 132], [160, 132]].map(([x, y]) => [p, x, y, 36, 36]), [c, 108, 80, 42, 42]]
+    case "tulip": return [stem(120, 150, 90), [G2, 82, 196, 36, 16], [G2, 138, 176, 36, 16],
+      [p, 70, 30, 44, 50], [p, 142, 30, 44, 50], [p, 70, 76, 44, 44], [p, 106, 76, 44, 44], [p, 142, 76, 44, 44], [c, 106, 120, 44, 36]]
+    case "clover": return [stem(120, 150, 90), [G2, 84, 196, 36, 16],
+      [p, 64, 34, 60, 60], [p, 132, 34, 60, 60], [p, 64, 102, 60, 60], [p, 132, 102, 60, 60], [c, 108, 80, 40, 40]]
+    case "spike": return [stem(120, 120, 120), [G2, 82, 190, 36, 16], [G2, 138, 160, 36, 16],
+      [p, 110, 14, 36, 36], [p, 92, 54, 36, 36], [p, 128, 54, 36, 36], [p, 74, 94, 36, 36], [p, 146, 94, 36, 36], [c, 110, 94, 36, 36]]
+    default: return [stem(120, 138, 100), [G2, 84, 190, 36, 16], [G2, 138, 160, 36, 16],
+      [p, 52, 78, 52, 52], [p, 156, 78, 52, 52], [p, 104, 26, 52, 52], [p, 104, 130, 52, 52], [c, 106, 80, 48, 48]]
+  }
+}
+export function flowerSticker(kind, petal, centre = "#F2C83A", rot = 0) {
   const c = document.createElement("canvas"); c.width = c.height = 256
   const g = c.getContext("2d")
   g.translate(128, 128); g.rotate((rot * Math.PI) / 180); g.translate(-128, -128)
-  const shapes = [
-    ["#4A8C24", 120, 138, 16, 100], ["#2C5A16", 84, 190, 36, 16], ["#2C5A16", 138, 160, 36, 16],
-    [petal, 52, 78, 52, 52], [petal, 156, 78, 52, 52], [petal, 104, 26, 52, 52], [petal, 104, 130, 52, 52], [centre, 106, 80, 48, 48],
-  ]
+  const shapes = SHAPES(kind, petal, centre)
   g.lineJoin = "round"; g.fillStyle = g.strokeStyle = "#fff"; g.lineWidth = 26
   shapes.forEach(([, x, y, w, h]) => { g.strokeRect(x, y, w, h); g.fillRect(x, y, w, h) })
   shapes.forEach(([col, x, y, w, h]) => { g.fillStyle = col; g.fillRect(x, y, w, h); g.strokeStyle = "rgba(0,0,0,.14)"; g.lineWidth = 2; g.strokeRect(x, y, w, h) })

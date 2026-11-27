@@ -377,5 +377,5 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #FF
   .hero .quick{flex-direction:row;align-items:center;gap:8px}
   .hero .quick .btn{padding:8px 11px;font-size:12px}
   .hero .hint{display:none}
-  .stickers{position:relative;inset:auto;height:104px;margin:4px 0 6px}
+  .stickers{position:relative;inset:auto;height:112px;margin:4px 0 6px}
 }
