@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="마블 시네마틱 유니버스 영화와 캐릭터를 탐색하는 포트폴리오 아카이브">
+<title>MARVEL UNIVERSE — One Universe. Infinite Stories.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=Oswald:wght@300;400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="home">
+<main id="main">
+
+  <!-- 01 HERO — Brocade Eyelet -->
+  <section class="hero" id="hero" aria-labelledby="heroTitle">
+    <canvas class="brocade" id="brocade" aria-hidden="true"></canvas>
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="wrap hero-in" id="heroIn">
+      <p class="eyebrow hero-eye">Marvel Cinematic Universe · 2008 — 2026</p>
+      <h1 class="hero-title" id="heroTitle"><span class="ln"><span>One Universe.</span></span><span class="ln"><em>Infinite stories.</em></span></h1>
+      <p class="hero-copy">Every hero has a story. Every story creates a universe.</p>
+      <p class="hero-ko">2008년 「아이언맨」에서 시작된 하나의 우주. 두 개의 사가, 여섯 개의 페이즈, 서른아홉 편의 영화를 따라 영웅들의 이야기를 탐험해 보세요.</p>
+      <div class="hero-cta">
+        <a class="btn btn-red magnet" href="#universe">Explore the Universe</a>
+        <a class="btn btn-line magnet" href="movies.html">Discover Movies</a>
+      </div>
+    </div>
+    <dl class="hero-side" aria-label="아카이브 규모">
+      <div><dt>Films</dt><dd id="heroCount">39</dd></div>
+      <div><dt>Phases</dt><dd>06</dd></div>
+      <div><dt>Sagas</dt><dd>02</dd></div>
+    </dl>
+    <p class="hero-hint" aria-hidden="true"><i></i>커서로 빛의 실을 모으고, 클릭하면 충격파가 퍼져요</p>
+    <div class="ticker" aria-hidden="true"><div class="ticker-in" id="ticker"></div></div>
+  </section>
+
+  <!-- 02 FEATURED -->
+  <section class="sec featured" id="featured" aria-labelledby="featTitle">
+    <div class="wrap">
+      <div class="sec-head" data-fade>
+        <div><p class="eyebrow">Featured Movies</p><h2 class="h-sec" id="featTitle">Must-Watch <em>stories</em><small>지금 다시 봐야 할 마블 영화</small></h2></div>
+        <div class="fctrl">
+          <button type="button" class="icon-btn" id="fprev" aria-label="이전 영화"></button>
+          <div class="fpag" id="fpag"></div>
+          <button type="button" class="icon-btn" id="fnext" aria-label="다음 영화"></button>
+        </div>
+      </div>
+      <div class="swiper fswiper" id="fswiper" data-fade aria-roledescription="carousel" aria-label="추천 영화">
+        <div class="swiper-wrapper" id="fwrap"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE — Gallery Tunnel -->
+  <section class="warp" id="warp" aria-labelledby="warpTitle">
+    <canvas class="tunnel" id="tunnel" aria-hidden="true"></canvas>
+    <div class="warp-shade" aria-hidden="true"></div>
+    <div class="warp-label" id="warpLabel" aria-hidden="true">HOLD TO WARP</div>
+    <div class="wrap warp-in">
+      <p class="eyebrow">Scene 02 · Into the Multiverse</p>
+      <h2 class="warp-title" id="warpTitle"><span>From one universe</span><em>to infinite worlds.</em></h2>
+      <p class="warp-txt">스크롤할수록, 화면을 꾹 누를수록 빨라집니다. 서른아홉 편의 영화가 벽을 따라 스쳐 지나가요.</p>
+    </div>
+  </section>
+
+  <!-- 03 UNIVERSE -->
+  <section class="sec universe" id="universe" aria-labelledby="uniTitle">
+    <div class="wrap">
+      <div class="sec-head" data-fade>
+        <div><p class="eyebrow">Explore the Universe</p><h2 class="h-sec" id="uniTitle">Two Sagas. <em>Six phases.</em><small>하나로 이어진 세계관의 큰 흐름</small></h2></div>
+        <p class="lead">MCU는 '페이즈' 단위로 이야기를 쌓고, 여러 페이즈가 모여 하나의 '사가'를 이룹니다. 페이즈를 누르면 해당 영화만 모아 볼 수 있어요.</p>
+      </div>
+      <div class="stats" id="stats" data-stagger></div>
+      <div class="sagas" id="sagas" data-stagger></div>
+    </div>
+  </section>
+
+  <!-- 04 CHARACTERS -->
+  <section class="sec legends" aria-labelledby="charTitle">
+    <div class="wrap">
+      <div class="sec-head" data-fade>
+        <div><p class="eyebrow">Legendary Characters</p><h2 class="h-sec" id="charTitle">Every Hero <em>has a story</em><small>카드를 눌러 프로필을 열어 보세요</small></h2></div>
+        <a class="btn btn-line btn-sm magnet" href="characters.html">All Characters</a>
+      </div>
+      <div class="cgrid" id="legends" data-stagger></div>
+    </div>
+  </section>
+
+  <!-- 05 TIMELINE -->
+  <section class="sec timeline" id="timeline" aria-labelledby="tlTitle">
+    <div class="wrap">
+      <div class="sec-head" data-fade>
+        <div><p class="eyebrow">MCU Timeline</p><h2 class="h-sec" id="tlTitle">Release <em>order</em><small>개봉 순서대로 따라가는 MCU</small></h2></div>
+        <div class="tl-ctrl">
+          <button type="button" class="icon-btn" id="tlPrev" aria-label="타임라인 이전으로"></button>
+          <button type="button" class="icon-btn" id="tlNext" aria-label="타임라인 다음으로"></button>
+        </div>
+      </div>
+      <div class="tl-tabs" id="tlTabs" role="group" aria-label="페이즈로 이동" data-fade></div>
+    </div>
+    <div class="tl-wrap"><div class="tl-track" id="tlTrack" tabindex="0" aria-label="MCU 영화 타임라인. 좌우 화살표 키로 이동"></div></div>
+  </section>
+
+  <!-- 06 ARCHIVE CTA — Venom Button -->
+  <section class="venom-band" aria-labelledby="ctaTitle">
+    <div class="vstage" id="vstage">
+      <canvas class="vhand" id="vhand" aria-hidden="true"></canvas>
+      <canvas class="vgoo" id="vgoo" aria-hidden="true"></canvas>
+      <div class="vcopy">
+        <p class="eyebrow">The Archive · We Are Venom</p>
+        <h2 id="ctaTitle">Explore the <em>entire</em> universe.</h2>
+        <p>페이즈 필터, 검색, 정렬, 즐겨찾기로 모든 MCU 영화를 탐색하세요.</p>
+      </div>
+      <button type="button" class="venom-pill" id="vbtn" aria-describedby="vhint">Open the Archive</button>
+      <p class="vhint" id="vhint">커서를 버튼 가까이 가져가 보세요. 심비오트가 손을 붙잡고, 멀리 빠져나가면 끊어집니다.</p>
+    </div>
+  </section>
+
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11.1.4/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="images/manifest.js"></script>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/brocade.js"></script>
+<script src="js/tunnel.js"></script>
+<script src="js/venom.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

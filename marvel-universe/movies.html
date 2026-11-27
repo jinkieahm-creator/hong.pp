@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="MCU 영화 전체를 페이즈, 검색, 정렬로 탐색하는 아카이브">
+<title>MOVIES — MARVEL UNIVERSE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=Oswald:wght@300;400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/sub.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="movies">
+<main id="main">
+  <section class="phead" aria-labelledby="pTitle">
+    <div class="wrap" data-fade>
+      <p class="eyebrow">The Archive</p>
+      <h1 id="pTitle">Movies<em>every film, in release order.</em></h1>
+      <p class="lead">인피니티 사가부터 멀티버스 사가까지, MCU 영화 전체를 한곳에 모았습니다. 제목·감독·배우로 검색하고 페이즈별로 나눠 보세요.</p>
+    </div>
+    <span class="bigtxt" aria-hidden="true">ARCHIVE</span>
+  </section>
+  <section class="sec archive" aria-label="영화 목록">
+    <div class="wrap">
+      <div class="toolbar">
+        <form class="sbox" role="search" id="mform">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <label class="sr" for="mq">영화 검색 (제목, 감독, 배우, 연도)</label>
+          <input id="mq" type="search" placeholder="제목, 감독, 배우, 연도로 검색" autocomplete="off" aria-controls="mgrid">
+          <button type="button" class="icon-btn clear" id="mclear" aria-label="검색어 지우기" hidden></button>
+        </form>
+        <div class="sort">
+          <label for="msort">SORT</label>
+          <select id="msort" aria-controls="mgrid">
+            <option value="old">Release Date: Oldest</option>
+            <option value="new">Release Date: Newest</option>
+            <option value="az">Title: A-Z</option>
+          </select>
+        </div>
+      </div>
+      <div class="filters" id="mfilter" role="group" aria-label="페이즈 필터"></div>
+      <div class="resbar">
+        <p id="mcount" aria-live="polite"></p>
+        <button type="button" class="btn btn-line btn-sm" id="mreset">필터 초기화</button>
+      </div>
+      <div class="mgrid" id="mgrid"></div>
+      <div class="empty" id="mempty" hidden>
+        <h3>No Results</h3>
+        <p id="memptyTxt">조건에 맞는 영화가 없어요.</p>
+        <button type="button" class="btn btn-red" id="memptyReset">전체 영화 보기</button>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="images/manifest.js"></script>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/movies.js"></script>
+</body>
+</html>

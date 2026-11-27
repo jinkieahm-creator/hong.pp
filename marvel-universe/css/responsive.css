@@ -1,0 +1,85 @@
+/* =========================================================
+   MARVEL UNIVERSE — responsive
+   Desktop ≥1200 · Laptop 1024–1199 · Tablet 768–1023 · Mobile ≤767
+   ========================================================= */
+@media (max-width:1199px){
+  .cgrid,.legends .cgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .stones{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .hero-meta{display:none}
+}
+
+@media (max-width:1023px){
+  :root{--hh:68px}
+  .menu{display:none}
+  .burger{display:grid;place-items:center;align-content:center}
+  .tools{margin-left:auto}
+  .gnb.menu-open{background:#050506}
+  .mgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .cpage .cgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .sagas,.saga-row{grid-template-columns:minmax(0,1fr)}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat:nth-child(3){border-left:0;padding-left:0}
+  .stat:nth-child(n+3){border-top:1px solid var(--line)}
+  .fslide-in{grid-template-columns:minmax(0,220px) minmax(0,1fr)}
+  .modal-box{grid-template-columns:minmax(0,1fr)}
+  .modal-img .art{aspect-ratio:16/9;height:auto}
+  .modal-img .ac-mono{font-size:40cqi}
+  .dgrid{grid-template-columns:minmax(0,1fr)}
+  .dposter{position:static;display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:20px;align-items:end}
+  .dact{grid-template-columns:minmax(0,1fr);margin-top:0}
+  .about-intro{grid-template-columns:minmax(0,1fr)}
+  .proj{grid-template-columns:minmax(0,1fr)}
+}
+
+@media (max-width:767px){
+  body{font-size:15px}
+  .mgrid,.cgrid,.legends .cgrid,.cpage .cgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 14px}
+  .stones{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero{align-items:center}
+  .hero-in{padding-block:calc(var(--hh) + 40px) 120px}
+  .hero-title{font-size:clamp(60px,17vw,96px)}
+  .hero-cta{flex-direction:column}
+  .hero-cta .btn,.empty .btn,.derr .btns .btn{width:100%}
+  .hero-shade{background:linear-gradient(0deg,var(--bg) 5%,rgba(9,9,11,.65) 60%,rgba(9,9,11,.4))}
+  .fslide{min-height:0}
+  .fslide::after{background:linear-gradient(0deg,rgba(9,9,11,.96) 35%,rgba(9,9,11,.5))}
+  .fslide-in{grid-template-columns:minmax(0,1fr);padding:24px;align-content:end}
+  .fslide-poster{width:42%;transform:none}
+  .fslide-act .btn{flex:1}
+  .fctrl{width:100%;justify-content:space-between}
+  .phase-list a{grid-template-columns:90px minmax(0,1fr) auto}
+  .tl-item{width:160px;padding-right:18px}
+  .tl-mark{width:180px}
+  .sec-head .btn{width:100%}
+  .toolbar{flex-direction:column;align-items:stretch}
+  .sbox{max-width:none;flex-basis:auto}
+  .sort{justify-content:space-between}
+  .sort select{flex:1}
+  .filters{flex-wrap:nowrap;overflow-x:auto;margin-inline:calc(-1 * var(--pad));padding-inline:var(--pad);scrollbar-width:none}
+  .filters::-webkit-scrollbar{display:none}
+  .resbar .btn{width:100%}
+  .info,.info.big{grid-template-columns:minmax(0,1fr);gap:2px}
+  .info dd{margin-bottom:10px}
+  .dposter{grid-template-columns:minmax(0,1fr)}
+  .dposter .art{width:60%}
+  .dact{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .pn{grid-template-columns:minmax(0,1fr)}
+  .pn .next{text-align:left}
+  .mcard-txt h3{font-size:15px}
+  .ccard-type{float:none;display:block}
+  .foot-note{flex-direction:column}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .crow{animation:none}
+  .loader{display:none}
+}
+
+/* small-screen header & saga rows */
+@media (max-width:767px){
+  .gnb-in{gap:8px}
+  .logo{font-size:22px;gap:8px;overflow:hidden;text-overflow:ellipsis}
+  .tools{flex:none}
+}

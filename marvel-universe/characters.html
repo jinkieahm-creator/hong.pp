@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="MCU 히어로와 빌런 캐릭터 프로필 아카이브">
+<title>CHARACTERS — MARVEL UNIVERSE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=Oswald:wght@300;400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/sub.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="characters">
+<main id="main" class="cpage">
+  <section class="phead" aria-labelledby="pTitle">
+    <div class="wrap" data-fade>
+      <p class="eyebrow">Heroes &amp; Villains</p>
+      <h1 id="pTitle">Characters<em>heroes &amp; villains.</em></h1>
+      <p class="lead">우주를 지킨 영웅과 그들을 시험한 빌런들. 카드를 누르면 능력, 소속, 등장 영화를 담은 프로필이 열립니다.</p>
+    </div>
+    <span class="bigtxt" aria-hidden="true">HEROES</span>
+  </section>
+  <section class="sec archive" aria-label="캐릭터 목록">
+    <div class="wrap">
+      <div class="toolbar">
+        <div class="filters" id="cfilter" role="group" aria-label="캐릭터 분류" style="margin-top:0"></div>
+        <form class="sbox" role="search" id="cform">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <label class="sr" for="cq">캐릭터 검색</label>
+          <input id="cq" type="search" placeholder="캐릭터 이름이나 본명으로 검색" autocomplete="off" aria-controls="cgrid">
+        </form>
+      </div>
+      <div class="resbar"><p id="ccount" aria-live="polite"></p></div>
+      <div class="cgrid" id="cgrid"></div>
+      <div class="empty" id="cempty" hidden>
+        <h3>No Characters</h3><p>검색어에 맞는 캐릭터가 없어요.</p>
+        <button type="button" class="btn btn-red" id="creset">전체 캐릭터 보기</button>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="images/manifest.js"></script>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/characters.js"></script>
+</body>
+</html>

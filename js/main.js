@@ -14,7 +14,7 @@
 
   const img = (w) => `<img src="${w.local}" alt="${w.name} 메인 화면" loading="lazy" onerror="if(this.dataset.f){this.remove()}else{this.dataset.f=1;this.src='${w.img}'}">`
   $("#workList").innerHTML =
-    `<article class="wk wk--intro"><div><p class="intro-lead">선물,<br>브랜드 감도,<br>신뢰.</p><p>세 가지 질문에서 출발한<br>세 개의 화면입니다.<span class="h-only"><br>옆으로 넘겨 보세요 →</span></p></div></article>` +
+    `<article class="wk wk--intro"><div><p class="intro-lead">선물,<br>탐색,<br>브랜드 감도,<br>신뢰.</p><p>네 가지 질문에서 출발한<br>네 개의 화면입니다.<span class="h-only"><br>옆으로 넘겨 보세요 →</span></p></div></article>` +
     D.works.map((w, i) => `
     <article class="wk" id="w-${w.id}" style="--c:${w.color}">
       <a class="frame" href="project.html?p=${w.id}" data-cur="VIEW" aria-label="${w.name} 케이스 스터디 보기">
@@ -30,7 +30,7 @@
         <div class="wk__btns"><a class="btn btn--solid" href="project.html?p=${w.id}">케이스 스터디 <span class="arr">→</span></a><a class="btn btn--ghost" href="${w.url}" target="_blank" rel="noopener" data-cur="LIVE">라이브 사이트 ↗</a></div>
       </div>
     </article>`).join("") +
-    `<article class="wk wk--outro"><div><h3>이 세 작업 전에는,<br>잘 만든 사이트를 따라 만들며<br>손을 익혔습니다.</h3><a class="btn btn--ghost" href="#studies">재현 작업 9개 보기 <span class="arr">↓</span></a></div></article>`
+    `<article class="wk wk--outro"><div><h3>이 네 작업 전에는,<br>잘 만든 사이트를 따라 만들며<br>손을 익혔습니다.</h3><a class="btn btn--ghost" href="#studies">재현 작업 9개 보기 <span class="arr">↓</span></a></div></article>`
 
   $("#studyList").innerHTML = D.studies.map((s, i) => `
     <li><a href="${s.url}" target="_blank" rel="noopener" data-cur="LIVE" data-i="${i}">
